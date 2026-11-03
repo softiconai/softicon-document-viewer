@@ -1,0 +1,163 @@
+// logical properties (inline-start/end) keep the layout right for RTL
+// languages without an -rtl.css copy
+.aldv_viewer {
+	box-sizing: border-box;
+	overflow: hidden;
+	border: 1px solid var(--aldv-border, rgba(0, 0, 0, 0.14));
+	border-radius: 12px;
+	background: var(--aldv-bg, transparent);
+
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+
+	[hidden] {
+		display: none !important;
+	}
+}
+
+// the file card, before the viewer opens or when it cannot
+.aldv_file {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 12px 16px;
+	padding: 16px;
+}
+
+.aldv_file_icon {
+	display: grid;
+	flex: none;
+	place-items: center;
+	width: 44px;
+	height: 52px;
+	border-radius: 6px;
+	background: #475569;
+	color: #fff;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	line-height: 1;
+}
+
+.aldv_file_icon_pdf {
+	background: #dc2626;
+}
+
+.aldv_file_icon_docx {
+	background: #2563eb;
+}
+
+.aldv_file_icon_xlsx,
+.aldv_file_icon_xls {
+	background: #15803d;
+}
+
+.aldv_file_icon_csv {
+	background: #0f766e;
+}
+
+.aldv_file_info {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 10em;
+}
+
+.aldv_file_name {
+	font-weight: 600;
+	overflow-wrap: anywhere;
+}
+
+.aldv_file_type {
+	font-size: 0.875em;
+	opacity: 0.7;
+}
+
+.aldv_download {
+	flex: none;
+	margin-inline-start: auto;
+	text-decoration: none;
+}
+
+// the reason the viewer could not open the file, under the file card
+.aldv_message {
+	margin: 0;
+	padding: 12px 16px;
+	border-top: 1px solid var(--aldv-border, rgba(0, 0, 0, 0.14));
+	font-size: 0.875em;
+}
+
+// the viewer under the file card, which then works as its toolbar
+.aldv_open .aldv_file {
+	border-bottom: 1px solid var(--aldv-border, rgba(0, 0, 0, 0.14));
+}
+
+.aldv_stage:empty {
+	display: none;
+}
+
+.aldv_loading {
+	display: grid;
+	place-items: center;
+	min-height: 160px;
+}
+
+.aldv_spinner {
+	width: 28px;
+	height: 28px;
+	border: 3px solid rgba(127, 127, 127, 0.3);
+	border-top-color: currentcolor;
+	border-radius: 50%;
+	animation: aldv-spin 0.8s linear infinite;
+
+	@media (prefers-reduced-motion: reduce) {
+		animation-duration: 3s;
+	}
+}
+
+@keyframes aldv-spin {
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+// PDF: white pages one below the other on a grey desk
+.aldv_pdf .aldv_stage {
+	padding: 16px;
+	background: rgba(127, 127, 127, 0.12);
+
+	@media (max-width: 600px) {
+		padding: 8px;
+	}
+}
+
+.aldv_pages {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	max-width: 1000px;
+	margin-inline: auto;
+
+	@media (max-width: 600px) {
+		gap: 8px;
+	}
+}
+
+.aldv_page {
+	width: 100%;
+	overflow: hidden;
+	background: #fff;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+	canvas {
+		display: block;
+		width: 100%;
+		max-width: none;
+		height: 100%;
+	}
+}

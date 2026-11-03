@@ -1,0 +1,34 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "softicon/document-viewer",
+	"version": "1.0.0",
+	"title": "Document Viewer",
+	"category": "media",
+	"description": "Show a PDF, Word, Excel or CSV file on the page. It opens in the visitor's browser, no outside viewer.",
+	"keywords": [ "document", "pdf", "word", "excel", "docx", "xlsx", "csv", "spreadsheet" ],
+	"textdomain": "softicon-document-viewer",
+	"attributes": {
+		"fileId": { "type": "number", "default": 0 },
+		"fileUrl": { "type": "string", "default": "" },
+		"fileName": { "type": "string", "default": "" },
+		"showDownload": { "type": "boolean", "default": true },
+		"bgColor": { "type": "string", "default": "" },
+		"borderColor": { "type": "string", "default": "" }
+	},
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ]
+	},
+	"example": {
+		"attributes": {
+			"fileUrl": "annual-report.docx",
+			"fileName": "Annual report.docx"
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}

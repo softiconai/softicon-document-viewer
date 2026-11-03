@@ -1,0 +1,249 @@
+# Copyright (C) 2026 softiconai
+# This file is distributed under the GPLv3 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: SoftIcon Document Viewer 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/softicon-document-viewer\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-03T13:57:03+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: softicon-document-viewer\n"
+
+#. Plugin Name of the plugin
+#: softicon-document-viewer.php
+msgid "SoftIcon Document Viewer"
+msgstr ""
+
+#. Description of the plugin
+#: softicon-document-viewer.php
+msgid "A block that shows PDF, Word, Excel and CSV files right on the page. The files open in the visitor's browser, no Google or Microsoft viewer needed."
+msgstr ""
+
+#. Author of the plugin
+#: softicon-document-viewer.php
+msgid "softiconai"
+msgstr ""
+
+#. Author URI of the plugin
+#: softicon-document-viewer.php
+msgid "https://profiles.wordpress.org/softiconai/"
+msgstr ""
+
+#: build/render.php:33
+#: build/index.js:2
+msgid "Download"
+msgstr ""
+
+#: includes/class-block.php:112
+#: build/index.js:2
+msgid "PDF document"
+msgstr ""
+
+#: includes/class-block.php:113
+#: build/index.js:2
+msgid "Word document"
+msgstr ""
+
+#: includes/class-block.php:114
+#: includes/class-block.php:115
+#: build/index.js:2
+msgid "Excel spreadsheet"
+msgstr ""
+
+#: includes/class-block.php:116
+#: build/index.js:2
+msgid "CSV file"
+msgstr ""
+
+#: build/index.js:2
+#, js-format
+msgid "%s color"
+msgstr ""
+
+#: build/index.js:2
+msgid "(opens in a new tab)"
+msgstr ""
+
+#: build/index.js:2
+msgid "General"
+msgstr ""
+
+#: build/index.js:2
+msgid "Style"
+msgstr ""
+
+#: build/index.js:2
+msgid "Get support"
+msgstr ""
+
+#: build/index.js:2
+msgid "Rate Document Viewer"
+msgstr ""
+
+#: build/index.js:2
+msgid "More plugins"
+msgstr ""
+
+#: build/index.js:2
+msgid "Help"
+msgstr ""
+
+#: build/index.js:2
+msgid "Email:"
+msgstr ""
+
+#: build/index.js:2
+msgid "File"
+msgstr ""
+
+#: build/index.js:2
+msgid "Change the file with Replace in the block toolbar."
+msgstr ""
+
+#: build/index.js:2
+msgid "Download button"
+msgstr ""
+
+#: build/index.js:2
+msgid "Lets visitors save the file."
+msgstr ""
+
+#: build/index.js:2
+msgid "Colors"
+msgstr ""
+
+#: build/index.js:2
+msgid "Background"
+msgstr ""
+
+#: build/index.js:2
+msgid "Border"
+msgstr ""
+
+#: build/index.js:2
+msgid "Replace"
+msgstr ""
+
+#: build/index.js:2
+msgid "This file cannot be shown, so the page leaves the block out. Pick a PDF, DOCX, XLSX, XLS or CSV file."
+msgstr ""
+
+#: build/index.js:2
+msgid "Document Viewer"
+msgstr ""
+
+#: build/index.js:2
+msgid "Upload or pick a PDF, Word (DOCX), Excel (XLSX, XLS) or CSV file, or paste a link to one."
+msgstr ""
+
+#. translators: 1: page number, 2: number of pages
+#: build/index.js:3
+#: build/view.js:2
+#, js-format
+msgid "Page %1$d of %2$d"
+msgstr ""
+
+#: build/index.js:3
+#: build/view.js:2
+msgid "The file was not found. Check the link, or pick the file again."
+msgstr ""
+
+#: build/index.js:3
+#: build/view.js:2
+msgid "The file was not found."
+msgstr ""
+
+#: build/index.js:3
+#: build/view.js:2
+msgid "This PDF has a password, so it cannot be shown here. Save it without a password, or leave the Download button on so visitors can open it."
+msgstr ""
+
+#: build/index.js:3
+#: build/view.js:2
+msgid "This PDF has a password, so it cannot be shown here."
+msgstr ""
+
+#: build/index.js:3
+#: build/view.js:2
+msgid "This file looks damaged, so it cannot be shown here. Open it on your computer and save it again."
+msgstr ""
+
+#: build/index.js:3
+#: build/view.js:2
+msgid "This file looks damaged, so it cannot be shown here."
+msgstr ""
+
+#: build/index.js:3
+#: build/view.js:2
+msgid "This file is on another website that does not allow it to be shown here. Upload the file to your Media Library instead."
+msgstr ""
+
+#: build/index.js:3
+#: build/view.js:2
+msgid "This file is on another website that does not allow it to be shown here."
+msgstr ""
+
+#: build/index.js:3
+#: build/view.js:2
+msgid "This file could not be shown. Try picking it again."
+msgstr ""
+
+#: build/index.js:3
+#: build/view.js:2
+msgid "This file could not be shown here."
+msgstr ""
+
+#: build/block.json
+msgctxt "block title"
+msgid "Document Viewer"
+msgstr ""
+
+#: build/block.json
+msgctxt "block description"
+msgid "Show a PDF, Word, Excel or CSV file on the page. It opens in the visitor's browser, no outside viewer."
+msgstr ""
+
+#: build/block.json
+msgctxt "block keyword"
+msgid "document"
+msgstr ""
+
+#: build/block.json
+msgctxt "block keyword"
+msgid "pdf"
+msgstr ""
+
+#: build/block.json
+msgctxt "block keyword"
+msgid "word"
+msgstr ""
+
+#: build/block.json
+msgctxt "block keyword"
+msgid "excel"
+msgstr ""
+
+#: build/block.json
+msgctxt "block keyword"
+msgid "docx"
+msgstr ""
+
+#: build/block.json
+msgctxt "block keyword"
+msgid "xlsx"
+msgstr ""
+
+#: build/block.json
+msgctxt "block keyword"
+msgid "csv"
+msgstr ""
+
+#: build/block.json
+msgctxt "block keyword"
+msgid "spreadsheet"
+msgstr ""

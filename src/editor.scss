@@ -1,0 +1,29 @@
+// block settings panels shared by SoftIcon blocks
+// (copied from ../softicon-tools by npm run tools)
+@import "./vendor/softicon-tools/styles/panels";
+
+.aldvHelp {
+	margin: 8px 0 0;
+	color: #757575;
+	font-size: 12px;
+}
+
+.aldvFile {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	margin: 0;
+	overflow-wrap: anywhere;
+
+	.aldvHelp {
+		margin: 0;
+	}
+}
+
+// the block in the editor
+.wp-block-softicon-document-viewer {
+
+	.aldv_download {
+		cursor: default;
+	}
+}
