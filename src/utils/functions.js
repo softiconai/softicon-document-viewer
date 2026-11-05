@@ -1,3 +1,4 @@
+import { decodeEntities } from '@wordpress/html-entities';
 import { fileTypes } from './options';
 
 // lower-case extension of a url, without a query string or hash
@@ -31,10 +32,23 @@ export const fromMedia = ( media ) => ( {
 	fileId: media.id || 0,
 	fileUrl: media.url || media.source_url || '',
 	fileName: media.title?.raw || media.title || '',
+	// a sheet name from the previous file means nothing in this one
+	firstSheet: '',
 } );
 
 // a pasted link, its name comes from the address
-export const fromUrl = ( url ) => ( { fileId: 0, fileUrl: url, fileName: '' } );
+export const fromUrl = ( url ) => ( { fileId: 0, fileUrl: url, fileName: '', firstSheet: '' } );
+
+// what the viewer gets, the way Block::config() builds it for the page
+export const toConfig = ( file, { showDownload, headerRow, firstSheet } ) => ( {
+	viewer: file.viewer,
+	ext: file.ext,
+	url: file.url,
+	name: file.name,
+	download: showDownload,
+	// a saved & comes back as &amp; for users without unfiltered_html
+	...( 'sheet' === file.viewer ? { header: headerRow, sheet: decodeEntities( firstSheet || '' ) } : {} ),
+} );
 
 export const cssVars = ( { bgColor, borderColor } ) => ( {
 	'--aldv-bg': bgColor || undefined,

@@ -10,6 +10,29 @@ export const pageLabel = ( page, total ) => sprintf(
 	total
 );
 
+// spreadsheets
+export const sheetsLabel = () => __( 'Sheets', 'softicon-document-viewer' );
+export const emptySheetText = () => __( 'This sheet is empty.', 'softicon-document-viewer' );
+export const moreRowsLabel = ( shown, total ) => sprintf(
+	/* translators: 1: rows shown so far, 2: all rows */
+	__( 'Show more rows (%1$s of %2$s shown)', 'softicon-document-viewer' ),
+	shown.toLocaleString(),
+	total.toLocaleString()
+);
+export const rowsCutText = ( shown, total ) => sprintf(
+	/* translators: 1: rows the viewer shows, 2: all rows in the sheet */
+	__( 'Only the first %1$s of %2$s rows are shown here. Download the file to see all of them.', 'softicon-document-viewer' ),
+	shown.toLocaleString(),
+	total.toLocaleString()
+);
+
+export const colsCutText = ( shown, total ) => sprintf(
+	/* translators: 1: columns the viewer shows, 2: all columns in the sheet */
+	__( 'Only the first %1$s of %2$s columns are shown here.', 'softicon-document-viewer' ),
+	shown.toLocaleString(),
+	total.toLocaleString()
+);
+
 // why a file could not be shown: a viewer sets error.aldvReason when it knows,
 // otherwise a file on another site most likely has no CORS header
 export const reasonOf = ( error, url, win ) => {
@@ -35,8 +58,8 @@ export const errorText = ( reason, editor = false ) => {
 				: __( 'The file was not found.', 'softicon-document-viewer' );
 		case 'password':
 			return editor
-				? __( 'This PDF has a password, so it cannot be shown here. Save it without a password, or leave the Download button on so visitors can open it.', 'softicon-document-viewer' )
-				: __( 'This PDF has a password, so it cannot be shown here.', 'softicon-document-viewer' );
+				? __( 'This file has a password, so it cannot be shown here. Save it without a password, or leave the Download button on so visitors can open it.', 'softicon-document-viewer' )
+				: __( 'This file has a password, so it cannot be shown here.', 'softicon-document-viewer' );
 		case 'invalid':
 			return editor
 				? __( 'This file looks damaged, so it cannot be shown here. Open it on your computer and save it again.', 'softicon-document-viewer' )

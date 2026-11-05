@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-03T14:28:43+00:00\n"
+"POT-Creation-Date: 2026-11-05T00:56:15+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: softicon-document-viewer\n"
@@ -114,6 +114,26 @@ msgid "Lets visitors save the file."
 msgstr ""
 
 #: build/index.js:2
+msgid "Spreadsheet"
+msgstr ""
+
+#: build/index.js:2
+msgid "First row is a header"
+msgstr ""
+
+#: build/index.js:2
+msgid "The first row stays at the top while visitors scroll. Off: the columns are named A, B, C."
+msgstr ""
+
+#: build/index.js:2
+msgid "Sheet shown first"
+msgstr ""
+
+#: build/index.js:2
+msgid "The first sheet"
+msgstr ""
+
+#: build/index.js:2
 msgid "Colors"
 msgstr ""
 
@@ -145,71 +165,102 @@ msgstr ""
 msgid "Upload or pick a PDF, Word (DOCX), Excel (XLSX, XLS) or CSV file, or paste a link to one."
 msgstr ""
 
-#. translators: 1: page number, 2: number of pages
+#. translators: 1: rows shown so far, 2: all rows
 #: build/index.js:3
 #: build/view.js:2
+#, js-format
+msgid "Show more rows (%1$s of %2$s shown)"
+msgstr ""
+
+#: build/index.js:3
+#: build/view.js:2
+msgid "This sheet is empty."
+msgstr ""
+
+#. translators: 1: page number, 2: number of pages
+#: build/index.js:4
+#: build/view.js:3
 #, js-format
 msgid "Page %1$d of %2$d"
 msgstr ""
 
-#: build/index.js:3
-#: build/view.js:2
+#. translators: 1: columns the viewer shows, 2: all columns in the sheet
+#: build/index.js:5
+#: build/view.js:4
+#, js-format
+msgid "Only the first %1$s of %2$s columns are shown here."
+msgstr ""
+
+#: build/index.js:5
+#: build/view.js:4
 msgid "The file was not found. Check the link, or pick the file again."
 msgstr ""
 
-#: build/index.js:3
-#: build/view.js:2
+#: build/index.js:5
+#: build/view.js:4
 msgid "The file was not found."
 msgstr ""
 
-#: build/index.js:3
-#: build/view.js:2
-msgid "This PDF has a password, so it cannot be shown here. Save it without a password, or leave the Download button on so visitors can open it."
+#: build/index.js:5
+#: build/view.js:4
+msgid "This file has a password, so it cannot be shown here. Save it without a password, or leave the Download button on so visitors can open it."
 msgstr ""
 
-#: build/index.js:3
-#: build/view.js:2
-msgid "This PDF has a password, so it cannot be shown here."
+#: build/index.js:5
+#: build/view.js:4
+msgid "This file has a password, so it cannot be shown here."
 msgstr ""
 
-#: build/index.js:3
-#: build/view.js:2
+#: build/index.js:5
+#: build/view.js:4
 msgid "This file looks damaged, so it cannot be shown here. Open it on your computer and save it again."
 msgstr ""
 
-#: build/index.js:3
-#: build/view.js:2
+#: build/index.js:5
+#: build/view.js:4
 msgid "This file looks damaged, so it cannot be shown here."
 msgstr ""
 
-#: build/index.js:3
-#: build/view.js:2
+#: build/index.js:5
+#: build/view.js:4
 msgid "This file is over 50 MB, too large to open in a browser. Make it smaller, or leave the Download button on so visitors can open it."
 msgstr ""
 
-#: build/index.js:3
-#: build/view.js:2
+#: build/index.js:5
+#: build/view.js:4
 msgid "This file is too large to show here."
 msgstr ""
 
-#: build/index.js:3
-#: build/view.js:2
+#: build/index.js:5
+#: build/view.js:4
 msgid "This file is on another website that does not allow it to be shown here. Upload the file to your Media Library instead."
 msgstr ""
 
-#: build/index.js:3
-#: build/view.js:2
+#: build/index.js:5
+#: build/view.js:4
 msgid "This file is on another website that does not allow it to be shown here."
 msgstr ""
 
-#: build/index.js:3
-#: build/view.js:2
+#: build/index.js:5
+#: build/view.js:4
 msgid "This file could not be shown. Try picking it again."
 msgstr ""
 
-#: build/index.js:3
-#: build/view.js:2
+#: build/index.js:5
+#: build/view.js:4
 msgid "This file could not be shown here."
+msgstr ""
+
+#: build/index.js:5
+#: build/view.js:4
+msgid "Sheets"
+msgstr ""
+
+#. translators: 1: rows the viewer shows, 2: all rows in the sheet
+#: build/index.js:6
+#: build/view.js:5
+#, js-format
+msgid "Only the first %1$s of %2$s rows are shown here. Download the file to see all of them."
 msgstr ""
 
 #: build/block.json

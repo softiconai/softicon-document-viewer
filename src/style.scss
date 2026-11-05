@@ -168,3 +168,158 @@
 		height: 100%;
 	}
 }
+
+// Excel and CSV: sheet tabs, then a table whose header row
+// and row numbers stay in view
+.aldv_sheet {
+	display: flex;
+	flex-direction: column;
+}
+
+.aldv_tabs {
+	display: flex;
+	gap: 4px;
+	overflow-x: auto;
+	padding: 8px 12px 0;
+	border-bottom: 1px solid var(--aldv-border, rgba(0, 0, 0, 0.14));
+}
+
+.aldv_tab {
+	flex: none;
+	margin: 0 0 -1px;
+	padding: 6px 14px;
+	border: 1px solid transparent;
+	border-radius: 6px 6px 0 0;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	font-size: 0.875em;
+	cursor: pointer;
+
+	&[aria-selected="true"] {
+		border-color: var(--aldv-border, rgba(0, 0, 0, 0.14));
+		border-bottom-color: var(--aldv-sheet-bg, #fff);
+		background: var(--aldv-sheet-bg, #fff);
+		font-weight: 600;
+	}
+
+	&:focus-visible {
+		outline: 2px solid currentcolor;
+		outline-offset: -2px;
+	}
+}
+
+.aldv_sheet_scroll {
+	overflow: auto;
+	max-height: min(75vh, 720px);
+	background: var(--aldv-sheet-bg, #fff);
+	color: #1e1e1e;
+
+	&:focus-visible {
+		outline: 2px solid currentcolor;
+		outline-offset: -2px;
+	}
+}
+
+.aldv_table {
+	width: max-content;
+	min-width: 100%;
+	margin: 0;
+	border-collapse: separate;
+	border-spacing: 0;
+	font-size: 14px;
+	line-height: 1.4;
+
+	th,
+	td {
+		max-width: 28em;
+		overflow: hidden;
+		padding: 4px 10px;
+		border: 0;
+		border-right: 1px solid #e2e2e2;
+		border-bottom: 1px solid #e2e2e2;
+		text-align: start;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		vertical-align: top;
+	}
+
+	thead th {
+		position: sticky;
+		z-index: 2;
+		top: 0;
+		background: var(--aldv-head-bg, #f1f3f5);
+		color: var(--aldv-head-color, inherit);
+		font-weight: 600;
+	}
+
+	.aldv_col {
+		font-weight: 400;
+		text-align: center;
+		opacity: 0.8;
+	}
+
+	// the row numbers, and the corner where they meet the header
+	.aldv_row,
+	.aldv_corner {
+		position: sticky;
+		z-index: 1;
+		left: 0;
+		min-width: 3em;
+		background: var(--aldv-head-bg, #f1f3f5);
+		font-weight: 400;
+		text-align: end;
+		opacity: 1;
+	}
+
+	.aldv_corner {
+		z-index: 3;
+	}
+
+	.aldv_row {
+		color: #6b7280;
+		font-size: 0.85em;
+	}
+
+	.aldv_num {
+		font-variant-numeric: tabular-nums;
+		text-align: end;
+	}
+
+	.aldv_mid {
+		text-align: center;
+	}
+
+	a {
+		color: #1d4ed8;
+	}
+}
+
+// a report's title rows, above the column names
+.aldv_sheet_title {
+	padding: 10px 14px;
+	font-weight: 600;
+	text-align: start;
+	caption-side: top;
+}
+
+.aldv_sheet_empty {
+	margin: 0;
+	padding: 24px 16px;
+	opacity: 0.7;
+}
+
+.aldv_sheet_foot:not(:empty) {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px 16px;
+	padding: 10px 16px;
+	border-top: 1px solid var(--aldv-border, rgba(0, 0, 0, 0.14));
+}
+
+.aldv_sheet_note {
+	margin: 0;
+	font-size: 0.875em;
+	opacity: 0.8;
+}

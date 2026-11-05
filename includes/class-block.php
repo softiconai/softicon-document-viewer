@@ -151,6 +151,14 @@ class Block {
 			'name'     => $file['name'],
 			'download' => ! isset( $attributes['showDownload'] ) || (bool) $attributes['showDownload'],
 		);
+		// spreadsheets: the first row as the header, and the sheet that opens first ('' = the first one)
+		if ( 'sheet' === $file['viewer'] ) {
+			$config['header'] = ! isset( $attributes['headerRow'] ) || (bool) $attributes['headerRow'];
+			// only compared with the sheet names, never printed as HTML (the JSON is hex-escaped); sanitize_text_field()
+			// would change names with % or <, and kses stores & as &amp; for users without unfiltered_html
+			$sheet           = isset( $attributes['firstSheet'] ) ? wp_check_invalid_utf8( (string) $attributes['firstSheet'] ) : '';
+			$config['sheet'] = mb_substr( wp_specialchars_decode( $sheet, ENT_QUOTES ), 0, 31 );
+		}
 		return apply_filters( 'aldv_config', $config, $attributes );
 	}
 }

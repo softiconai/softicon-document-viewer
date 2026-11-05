@@ -1,5 +1,8 @@
 // eslint-disable-next-line import/no-unresolved -- the package has only an "exports" map, which webpack reads and this resolver does not
 import { defaultOptions, renderAsync } from 'docx-preview';
+import { loadFile } from './loadFile';
+import { zipTooBig } from './zipCheck';
+import { safeHref } from './safeUrl';
 
 // how the pages sit inside the shadow root; the theme's CSS cannot reach in, the file's selectors cannot reach out
 // (its layout is held in by contain: paint on .aldv_docx .aldv_stage)
@@ -17,9 +20,6 @@ img { max-width: none; }
 
 // below this a zoomed page is too small to read (a Letter page on a phone is about 0.36), the text flows instead
 const MIN_ZOOM = 0.6;
-
-// a bigger file (or a zip bomb) would freeze the visitor's tab
-const MAX_BYTES = 50 * 1024 * 1024;
 
 const UNSAFE = 'script, iframe, frame, frameset, object, embed, base, form, meta, link, portal';
 
@@ -70,19 +70,6 @@ const SYMBOLS = { f0b7: '•', f0a7: '▪', f0a8: '◻', f06e: '■', f071: '❑
 const PRIVATE = /[\uf020-\uf0ff]/g;
 const unSymbol = ( text ) => text.replace( PRIVATE, ( char ) => SYMBOLS[ char.charCodeAt( 0 ).toString( 16 ) ] || '•' );
 
-// web, email, phone and in-document links only; a Word file can hold javascript: or file: links
-const safeHref = ( href, win ) => {
-	if ( href.startsWith( '#' ) ) {
-		return href;
-	}
-	try {
-		const url = new URL( href, win.location.href );
-		return [ 'http:', 'https:', 'mailto:', 'tel:' ].includes( url.protocol ) ? url.href : null;
-	} catch ( e ) {
-		return null;
-	}
-};
-
 // Word (docx) as real HTML: searchable and read by screen readers, page by page, scaled down to fit on phones
 export default class Docx {
 	constructor( root, config ) {
@@ -105,7 +92,12 @@ export default class Docx {
 		let body;
 		let styles;
 		try {
-			const blob = await this.load();
+			this.abort = new this.win.AbortController();
+			const blob = await loadFile( this.config.url, this.abort.signal );
+			// a zip bomb is refused before JSZip unpacks it
+			if ( zipTooBig( await blob.arrayBuffer() ) ) {
+				throw Object.assign( new Error( 'Unpacks too large' ), { aldvReason: 'large' } );
+			}
 			// rendered away from the page and cleaned before anything of it is shown
 			body = this.doc.createElement( 'div' );
 			styles = this.doc.createElement( 'div' );
@@ -132,31 +124,6 @@ export default class Docx {
 		}
 		this.clean( body, styles );
 		this.show( body, styles );
-	}
-
-	// the file itself; a missing file is told apart from a network or CORS failure (a TypeError)
-	async load() {
-		this.abort = new this.win.AbortController();
-		const response = await fetch( this.config.url, { signal: this.abort.signal } );
-		if ( ! response.ok ) {
-			const error = new Error( 'HTTP ' + response.status );
-			error.aldvReason = 404 === response.status || 410 === response.status ? 'missing' : 'failed';
-			throw error;
-		}
-		const tooBig = () => {
-			const error = new Error( 'File too large' );
-			error.aldvReason = 'large';
-			return error;
-		};
-		if ( Number( response.headers.get( 'content-length' ) ) > MAX_BYTES ) {
-			this.abort.abort();
-			throw tooBig();
-		}
-		const blob = await response.blob();
-		if ( blob.size > MAX_BYTES ) {
-			throw tooBig();
-		}
-		return blob;
 	}
 
 	clean( body, styles ) {

@@ -8,19 +8,21 @@ import Settings from './Settings/Settings';
 import FileCard from './FileCard';
 import { blockIcon } from '../../utils/icons';
 import { accept, mimeTypes } from '../../utils/options';
-import { cssVars, extOf, fileInfo, fromMedia, fromUrl } from '../../utils/functions';
+import { cssVars, extOf, fileInfo, fromMedia, fromUrl, toConfig } from '../../utils/functions';
 import { viewers } from '../../viewer/viewers';
 import { errorText, reasonOf } from '../../viewer/messages';
 
-// the live preview: the same viewer the page uses, opened in the block's .aldv_stage;
-// gives the reason the file could not be shown, '' while it can
-const usePreview = ( stage, fileUrl ) => {
+// the live preview: the same viewer the page uses, opened in the block's .aldv_stage; it opens again when
+// the file or a setting the viewer reads changes. Gives the reason the file could not be shown ('' while it can)
+// and a spreadsheet's sheet names for the First sheet setting.
+const usePreview = ( stage, configKey ) => {
 	const [ failed, setFailed ] = useState( '' );
+	const [ sheets, setSheets ] = useState( [] );
 
 	useEffect( () => {
 		const el = stage.current;
-		const file = fileInfo( { fileUrl } );
-		const load = file && viewers[ file.viewer ];
+		const config = configKey ? JSON.parse( configKey ) : null;
+		const load = config && viewers[ config.viewer ];
 		setFailed( '' );
 		if ( ! el || ! load ) {
 			return;
@@ -30,7 +32,7 @@ const usePreview = ( stage, fileUrl ) => {
 		load()
 			.then( ( { default: Viewer } ) => {
 				if ( ! closed ) {
-					viewer = new Viewer( el.parentElement, file );
+					viewer = new Viewer( el.parentElement, config, { onSheets: setSheets } );
 					return viewer.init();
 				}
 			} )
@@ -39,7 +41,7 @@ const usePreview = ( stage, fileUrl ) => {
 					return;
 				}
 				viewer?.destroy();
-				setFailed( reasonOf( error, file.url, el.ownerDocument.defaultView ) );
+				setFailed( reasonOf( error, config.url, el.ownerDocument.defaultView ) );
 				// eslint-disable-next-line no-console
 				console.error( 'SoftIcon Document Viewer:', error );
 			} );
@@ -47,9 +49,9 @@ const usePreview = ( stage, fileUrl ) => {
 			closed = true;
 			viewer?.destroy();
 		};
-	}, [ stage, fileUrl ] );
+	}, [ stage, configKey ] );
 
-	return failed;
+	return { failed, sheets };
 };
 
 const Edit = ( { attributes, setAttributes } ) => {
@@ -59,7 +61,9 @@ const Edit = ( { attributes, setAttributes } ) => {
 	const assetsRef = useIframeAssets( [ 'softicon-document-viewer-style-css', 'softicon-document-viewer-editor-style-css' ] );
 	const file = fileInfo( attributes );
 	const stage = useRef();
-	const failed = usePreview( stage, file ? fileUrl : '' );
+	// the Download button is in the file card, not the viewer: turning it on or off does not reopen the file
+	const preview = file ? { ...toConfig( file, attributes ), download: true } : null;
+	const { failed, sheets } = usePreview( stage, preview ? JSON.stringify( preview ) : '' );
 
 	const pick = ( patch ) => {
 		setError( '' );
@@ -93,7 +97,7 @@ const Edit = ( { attributes, setAttributes } ) => {
 	}
 
 	return <>
-		<Settings { ...{ attributes, setAttributes, file } } />
+		<Settings { ...{ attributes, setAttributes, file, sheets } } />
 
 		<BlockControls group="other">
 			<MediaReplaceFlow

@@ -16,6 +16,8 @@ Show PDF, Word, Excel and CSV files on your pages with a block. The files open i
 
 * **PDF in the page** – the pages show one below the other, sharp on phones and retina screens. Only the pages near the screen are drawn, and only the parts of the file they need are downloaded, so long PDFs open fast.
 * **Word as real text** – a DOCX file becomes real HTML with its headings, lists, tables, images, headers and footers, so visitors can search it and screen readers can read it. On a computer it looks like Word's pages; on a phone the text flows to the screen width so it stays readable.
+* **Excel that looks like Excel** – XLSX and XLS files show with their sheet tabs, number, currency, percent and date formats, merged cells and links. Only the used cells are shown, and the header row and row numbers stay in view while visitors scroll. Choose which sheet opens first.
+* **CSV as a table** – the first row is the header (or turn that off), and values stay exactly as written, so codes like 00123 keep their zeros.
 * **Live preview** – the block editor shows the real file, not a placeholder.
 * **No outside viewer** – nothing is sent to Google or Microsoft, so it works on intranets, local sites and members-only sites.
 * **No cookies, no tracking** – the plugin sends nothing anywhere.
@@ -28,6 +30,8 @@ Show PDF, Word, Excel and CSV files on your pages with a block. The files open i
 
 * docx-preview 0.4.1 (npm package docx-preview) by Volodymyr Baydalka – [github.com/VolodymyrBaydalka/docxjs](https://github.com/VolodymyrBaydalka/docxjs) – Apache License 2.0. Bundled in build/docx-preview.js; license in build/docx-preview-LICENSE.txt.
 * JSZip 3.10.2 (npm package jszip) by Stuart Knightley – [github.com/Stuk/jszip](https://github.com/Stuk/jszip) – MIT License or GPLv3 (used here under the MIT License). Bundled in build/docx-preview.js, it opens the DOCX file (a zip archive); license in build/jszip-LICENSE.txt.
+
+* SheetJS Community Edition 0.20.3 (package xlsx) by SheetJS LLC – [sheetjs.com](https://sheetjs.com/) / [git.sheetjs.com/sheetjs/sheetjs](https://git.sheetjs.com/sheetjs/sheetjs) – Apache License 2.0. Bundled in build/xlsx.js; license in build/xlsx-LICENSE.txt. Installed from the official SheetJS tarball (cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz, as SheetJS recommends), not from the older npm release.
 
 The unminified source of this plugin is in the src folder, with package.json and webpack.config.js. Build it with `npm install` and `npm run build`; the build copies the pdf.js files from node_modules/pdfjs-dist.
 
@@ -55,9 +59,13 @@ The visitor's browser reads the file itself, so the other website has to allow t
 
 Text, headings, lists, tables, images, headers and footers come through well. Complex layouts (text boxes, SmartArt, charts, columns) may look different, and pages break only where the file says so. When the look matters, a PDF is the safer choice; the Download button gives visitors the original file either way.
 
-= A PDF with a password does not open =
+= How big can a spreadsheet be? =
 
-The block cannot show a PDF that needs a password. Save it without one, or leave the Download button on so visitors can open it on their device.
+Files up to 50 MB open. A sheet shows its first 20,000 rows, 500 at a time as visitors scroll; the Download button gives them the whole file.
+
+= A file with a password does not open =
+
+The block cannot show a PDF, Word or Excel file that needs a password. Save it without one, or leave the Download button on so visitors can open it on their device.
 
 == Changelog ==
 

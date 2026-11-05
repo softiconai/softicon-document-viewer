@@ -13,6 +13,8 @@
 		"fileUrl": { "type": "string", "default": "" },
 		"fileName": { "type": "string", "default": "" },
 		"showDownload": { "type": "boolean", "default": true },
+		"headerRow": { "type": "boolean", "default": true },
+		"firstSheet": { "type": "string", "default": "" },
 		"bgColor": { "type": "string", "default": "" },
 		"borderColor": { "type": "string", "default": "" }
 	},

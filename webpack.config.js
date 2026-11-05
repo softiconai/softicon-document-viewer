@@ -32,7 +32,8 @@ module.exports = {
 			cacheGroups: {
 				...defaultConfig.optimization.splitChunks.cacheGroups,
 				pdfjs: { test: /[\\/]node_modules[\\/]pdfjs-dist[\\/]/, name: 'pdfjs', chunks: 'async', enforce: true },
-				docx: { test: /[\\/]node_modules[\\/](docx-preview|jszip)[\\/]/, name: 'docx-preview', chunks: 'async', enforce: true }
+				docx: { test: /[\\/]node_modules[\\/](docx-preview|jszip)[\\/]/, name: 'docx-preview', chunks: 'async', enforce: true },
+				xlsx: { test: /[\\/]node_modules[\\/]xlsx[\\/]/, name: 'xlsx', chunks: 'async', enforce: true }
 			}
 		}
 	},
@@ -51,7 +52,8 @@ module.exports = {
 				...licenses('wasm', 'decoders', ['LICENSE_OPENJPEG', 'LICENSE_PDFJS_OPENJPEG', 'LICENSE_JBIG2', 'LICENSE_PDFJS_JBIG2']),
 				{ from: pdfjs + 'LICENSE', to: 'pdfjs/LICENSE.txt' },
 				{ from: 'node_modules/docx-preview/LICENSE', to: 'docx-preview-LICENSE.txt' },
-				{ from: 'node_modules/jszip/LICENSE.markdown', to: 'jszip-LICENSE.txt' }
+				{ from: 'node_modules/jszip/LICENSE.markdown', to: 'jszip-LICENSE.txt' },
+				{ from: 'node_modules/xlsx/LICENSE', to: 'xlsx-LICENSE.txt' }
 			]
 		})
 	]
