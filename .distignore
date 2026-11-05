@@ -2,11 +2,9 @@
 .DS_Store
 .git
 .gitignore
-README.md
 node_modules
 package-lock.json
 .eslintrc.js
 softicon-document-viewer.zip
 .wordpress-org
-PROJECT-NOTES.md
-CLAUDE.md
+*.md
