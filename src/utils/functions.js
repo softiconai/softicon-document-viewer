@@ -40,17 +40,38 @@ export const fromMedia = ( media ) => ( {
 export const fromUrl = ( url ) => ( { fileId: 0, fileUrl: url, fileName: '', firstSheet: '' } );
 
 // what the viewer gets, the way Block::config() builds it for the page
-export const toConfig = ( file, { showDownload, headerRow, firstSheet } ) => ( {
+// a fixed height for the viewer, checked like Block::height() does; '' is Auto
+export const heightOf = ( value ) => {
+	const height = 'string' === typeof value ? value.trim() : '';
+	return /^\d{1,4}(\.\d{1,2})?(px|vh|em|rem)$/.test( height ) && parseFloat( height ) > 0 ? height : '';
+};
+
+export const toConfig = ( file, { showDownload, showFullscreen, showZoom, maxHeight, headerRow, firstSheet } ) => ( {
 	viewer: file.viewer,
 	ext: file.ext,
 	url: file.url,
 	name: file.name,
 	download: showDownload,
+	fullscreen: showFullscreen,
+	zoom: showZoom,
+	fixed: '' !== heightOf( maxHeight ),
 	// a saved & comes back as &amp; for users without unfiltered_html
 	...( 'sheet' === file.viewer ? { header: headerRow, sheet: decodeEntities( firstSheet || '' ) } : {} ),
 } );
 
-export const cssVars = ( { bgColor, borderColor } ) => ( {
-	'--aldv-bg': bgColor || undefined,
-	'--aldv-border': borderColor || undefined,
+// hex, rgb(a), hsl(a) or a preset var(), checked like Block::color(); anything else (a url() would load
+// something from another site in the editor) is dropped
+export const colorOf = ( value ) => {
+	const color = 'string' === typeof value ? value.trim() : '';
+	return /^(#[0-9a-f]{3,8}|(rgb|hsl)a?\([0-9.,%\s/]+\)|var\(--[a-z0-9-]+\))$/i.test( color ) ? color : undefined;
+};
+
+export const cssVars = ( { bgColor, borderColor, toolbarBg, toolbarColor, headBg, headColor, maxHeight } ) => ( {
+	'--aldv-bg': colorOf( bgColor ),
+	'--aldv-border': colorOf( borderColor ),
+	'--aldv-toolbar-bg': colorOf( toolbarBg ),
+	'--aldv-toolbar-color': colorOf( toolbarColor ),
+	'--aldv-head-bg': colorOf( headBg ),
+	'--aldv-head-color': colorOf( headColor ),
+	'--aldv-height': heightOf( maxHeight ) || undefined,
 } );

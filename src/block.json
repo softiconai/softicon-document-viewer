@@ -13,10 +13,17 @@
 		"fileUrl": { "type": "string", "default": "" },
 		"fileName": { "type": "string", "default": "" },
 		"showDownload": { "type": "boolean", "default": true },
+		"showFullscreen": { "type": "boolean", "default": true },
+		"showZoom": { "type": "boolean", "default": true },
+		"maxHeight": { "type": "string", "default": "" },
 		"headerRow": { "type": "boolean", "default": true },
 		"firstSheet": { "type": "string", "default": "" },
 		"bgColor": { "type": "string", "default": "" },
-		"borderColor": { "type": "string", "default": "" }
+		"borderColor": { "type": "string", "default": "" },
+		"toolbarBg": { "type": "string", "default": "" },
+		"toolbarColor": { "type": "string", "default": "" },
+		"headBg": { "type": "string", "default": "" },
+		"headColor": { "type": "string", "default": "" }
 	},
 	"supports": {
 		"html": false,

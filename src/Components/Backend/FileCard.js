@@ -7,7 +7,11 @@ const FileCard = ( { file, download } ) => <div className="aldv_file">
 		<span className="aldv_file_name">{ file.name }</span>
 		<span className="aldv_file_type">{ file.label }</span>
 	</span>
-	{ download && <span className="aldv_download wp-element-button" aria-hidden="true">{ __( 'Download', 'softicon-document-viewer' ) }</span> }
+	<span className="aldv_actions">
+		{ /* the viewer's buttons go here, React leaves its content alone */ }
+		<span className="aldv_tools" />
+		{ download && <span className="aldv_download wp-element-button" aria-hidden="true">{ __( 'Download', 'softicon-document-viewer' ) }</span> }
+	</span>
 </div>;
 
 export default FileCard;

@@ -1,6 +1,7 @@
 import { loadFile } from './loadFile';
 import { linkOut, safeHref } from './safeUrl';
 import { colsCutText, emptySheetText, moreRowsLabel, rowsCutText, sheetsLabel } from './messages';
+import Toolbar from './toolbar';
 
 // cells added to the table at a time (500 rows of 50 columns)
 const STEP_CELLS = 25000;
@@ -84,8 +85,9 @@ class Reader {
 
 // Excel and CSV as a table: sheet tabs, only the used cells, a header row and row numbers that stay in view
 export default class Sheet {
-	constructor( root, config, { onSheets } = {} ) {
+	constructor( root, config, { onSheets, editor = false } = {} ) {
 		this.root = root;
+		this.editor = editor;
 		this.doc = root.ownerDocument;
 		this.win = this.doc.defaultView || window;
 		this.config = config;
@@ -156,6 +158,8 @@ export default class Sheet {
 		if ( ! this.destroyed ) {
 			this.stage.replaceChildren( this.box );
 			this.root.classList.add( 'aldv_ready' );
+			// fullscreen only: a table is read at its own size
+			this.toolbar = new Toolbar( this );
 		}
 	}
 
@@ -329,6 +333,7 @@ export default class Sheet {
 
 	destroy() {
 		this.destroyed = true;
+		this.toolbar?.destroy();
 		this.abort?.abort();
 		this.reader?.stop();
 		this.data = null;

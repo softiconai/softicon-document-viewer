@@ -2,6 +2,7 @@
 import { defaultOptions, renderAsync } from 'docx-preview';
 import { loadFile } from './loadFile';
 import { zipTooBig } from './zipCheck';
+import Toolbar from './toolbar';
 import { safeHref } from './safeUrl';
 
 // how the pages sit inside the shadow root; the theme's CSS cannot reach in, the file's selectors cannot reach out
@@ -72,8 +73,9 @@ const unSymbol = ( text ) => text.replace( PRIVATE, ( char ) => SYMBOLS[ char.ch
 
 // Word (docx) as real HTML: searchable and read by screen readers, page by page, scaled down to fit on phones
 export default class Docx {
-	constructor( root, config ) {
+	constructor( root, config, { editor = false } = {} ) {
 		this.root = root;
+		this.editor = editor;
 		this.doc = root.ownerDocument;
 		this.win = this.doc.defaultView || window;
 		this.config = config;
@@ -192,6 +194,13 @@ export default class Docx {
 		this.pages = shadow.querySelector( '.docx-wrapper' );
 		this.stage.replaceChildren( this.host );
 		this.root.classList.add( 'aldv_ready' );
+		this.userZoom = 1;
+		this.toolbar = new Toolbar( this, {
+			zoom: ( level ) => {
+				this.userZoom = level;
+				this.fit();
+			},
+		} );
 
 		// links inside the document (table of contents, bookmarks) scroll to their target in the shadow root
 		shadow.addEventListener( 'click', ( event ) => {
@@ -223,26 +232,35 @@ export default class Docx {
 
 	// a page a bit wider than the block is zoomed down as a whole, so it keeps its look;
 	// on a phone the pages keep their paper look, but the text flows to the screen width
+	// the visitor's zoom from the toolbar comes on top; in the flowing (phone) layout it makes the text bigger
 	fit() {
 		if ( ! this.pages ) {
 			return;
 		}
+		const user = this.userZoom || 1;
 		this.pages.style.zoom = '';
 		this.pages.classList.remove( 'aldv_reflow' );
 		const widest = Math.max( 0, ...[ ...this.pages.children ].map( ( page ) => page.offsetWidth ) );
 		const room = this.host.clientWidth;
-		if ( ! room || widest <= room ) {
-			return;
+		let zoom = user;
+		if ( room && widest > room ) {
+			if ( room / widest >= MIN_ZOOM ) {
+				zoom = ( room / widest ) * user;
+			} else {
+				this.pages.classList.add( 'aldv_reflow' );
+			}
 		}
-		if ( room / widest >= MIN_ZOOM ) {
-			this.pages.style.zoom = String( room / widest );
-		} else {
-			this.pages.classList.add( 'aldv_reflow' );
-		}
+		this.pages.style.zoom = 1 === zoom ? '' : String( zoom );
+	}
+
+	// called by the toolbar; the pages fit the new size
+	fullscreen() {
+		this.fit();
 	}
 
 	destroy() {
 		this.destroyed = true;
+		this.toolbar?.destroy();
 		this.abort?.abort();
 		this.resizer?.disconnect();
 		if ( this.stage ) {

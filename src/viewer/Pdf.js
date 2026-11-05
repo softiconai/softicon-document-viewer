@@ -1,6 +1,7 @@
 /* global __webpack_public_path__ */
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { pageLabel } from './messages';
+import Toolbar from './toolbar';
 
 // pages are drawn when they come this close to the screen, and freed again when they move further away
 const NEAR = '150% 0px';
@@ -53,8 +54,9 @@ const reasonOf = ( error ) => {
 
 // PDF pages one below the other; only the pages near the screen are drawn
 export default class Pdf {
-	constructor( root, config ) {
+	constructor( root, config, { editor = false } = {} ) {
 		this.root = root;
+		this.editor = editor;
 		this.doc = root.ownerDocument;
 		this.win = this.doc.defaultView || window;
 		this.config = config;
@@ -135,21 +137,16 @@ export default class Pdf {
 			this.pages.push( box );
 			list.append( box );
 		}
+		this.list = list;
 		this.stage.replaceChildren( list );
 		this.root.classList.add( 'aldv_ready' );
 
-		// the window of the document that holds the block, so the editor iframe's own scrolling counts
-		this.observer = new this.win.IntersectionObserver( ( entries ) => entries.forEach( ( entry ) => {
-			const index = Number( entry.target.dataset.index );
-			if ( entry.isIntersecting ) {
-				this.near.add( index );
-				this.draw( index );
-			} else {
-				this.near.delete( index );
-				this.free( index );
-			}
-		} ), { rootMargin: NEAR } );
-		this.pages.forEach( ( box ) => this.observer.observe( box ) );
+		// zoom changes the width of the pages; the ResizeObserver below draws them again
+		this.toolbar = new Toolbar( this, {
+			zoom: ( level ) => list.style.setProperty( '--aldv-zoom', level ),
+			pages: count,
+		} );
+		this.observe();
 
 		// the block can change width without a window resize (editor sidebar, columns, phone rotation)
 		if ( this.win.ResizeObserver ) {
@@ -165,6 +162,70 @@ export default class Pdf {
 			} );
 			this.resizer.observe( list );
 		}
+	}
+
+	// what scrolls the pages: the stage when the block has a fixed height or is fullscreen, else the window
+	// (of the document that holds the block, so the editor iframe's own scrolling counts)
+	scrollBox() {
+		return this.config.fixed || this.full ? this.stage : null;
+	}
+
+	// pages near the scroll box are drawn, the others freed; the page counter follows the scrolling
+	observe() {
+		this.observer?.disconnect();
+		this.offScroll?.();
+		const box = this.scrollBox();
+		this.observer = new this.win.IntersectionObserver( ( entries ) => entries.forEach( ( entry ) => {
+			const index = Number( entry.target.dataset.index );
+			if ( entry.isIntersecting ) {
+				this.near.add( index );
+				this.draw( index );
+			} else {
+				this.near.delete( index );
+				this.free( index );
+			}
+		} ), { root: box, rootMargin: NEAR } );
+		this.pages.forEach( ( page ) => this.observer.observe( page ) );
+
+		const target = box || this.win;
+		const onScroll = () => {
+			if ( ! this.ticking ) {
+				this.ticking = true;
+				this.win.requestAnimationFrame( () => {
+					this.ticking = false;
+					this.trackPage();
+				} );
+			}
+		};
+		target.addEventListener( 'scroll', onScroll, { passive: true } );
+		this.offScroll = () => target.removeEventListener( 'scroll', onScroll );
+		this.trackPage();
+	}
+
+	// the page a third of the way down the scroll box, found by halving (pages are in order)
+	trackPage() {
+		if ( ! this.toolbar || ! this.pages.length ) {
+			return;
+		}
+		const box = this.scrollBox();
+		const line = box ? box.getBoundingClientRect().top + ( box.clientHeight / 3 ) : this.win.innerHeight / 3;
+		let low = 0;
+		let high = this.pages.length - 1;
+		while ( low < high ) {
+			const mid = Math.floor( ( low + high ) / 2 );
+			if ( this.pages[ mid ].getBoundingClientRect().bottom < line ) {
+				low = mid + 1;
+			} else {
+				high = mid;
+			}
+		}
+		this.toolbar.page( low + 1 );
+	}
+
+	// called by the toolbar
+	fullscreen( on ) {
+		this.full = on;
+		this.observe();
 	}
 
 	targetWidth( index ) {
@@ -225,6 +286,8 @@ export default class Pdf {
 
 	destroy() {
 		this.destroyed = true;
+		this.toolbar?.destroy();
+		this.offScroll?.();
 		this.observer?.disconnect();
 		this.resizer?.disconnect();
 		this.rendering?.cancel();

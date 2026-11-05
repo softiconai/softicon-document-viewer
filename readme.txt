@@ -18,6 +18,8 @@ Show PDF, Word, Excel and CSV files on your pages with a block. The files open i
 * **Word as real text** – a DOCX file becomes real HTML with its headings, lists, tables, images, headers and footers, so visitors can search it and screen readers can read it. On a computer it looks like Word's pages; on a phone the text flows to the screen width so it stays readable.
 * **Excel that looks like Excel** – XLSX and XLS files show with their sheet tabs, number, currency, percent and date formats, merged cells and links. Only the used cells are shown, and the header row and row numbers stay in view while visitors scroll. Choose which sheet opens first.
 * **CSV as a table** – the first row is the header (or turn that off), and values stay exactly as written, so codes like 00123 keep their zeros.
+* **Toolbar** – zoom for PDF and Word, the page number for PDF, fullscreen for every file, and the Download button. Every button works with the keyboard and screen readers; turn the ones you do not need off.
+* **Your size, your colors** – the whole document grows with the page, or it scrolls inside a box of the height you set. Wide and full width are supported. Pick the background, border, toolbar and table header colors.
 * **Live preview** – the block editor shows the real file, not a placeholder.
 * **No outside viewer** – nothing is sent to Google or Microsoft, so it works on intranets, local sites and members-only sites.
 * **No cookies, no tracking** – the plugin sends nothing anywhere.

@@ -127,17 +127,31 @@ class Block {
 		return '';
 	}
 
-	// colors become css variables so the stylesheet keeps the fallbacks
+	// a fixed height for the viewer: a number with px, vh, em or rem; anything else means Auto ('')
+	public static function height( $attributes ) {
+		$value = isset( $attributes['maxHeight'] ) && is_string( $attributes['maxHeight'] ) ? trim( $attributes['maxHeight'] ) : '';
+		return preg_match( '/^\d{1,4}(\.\d{1,2})?(px|vh|em|rem)$/', $value ) && (float) $value > 0 ? $value : '';
+	}
+
+	// colors and the height become css variables so the stylesheet keeps the fallbacks
 	public static function style( $attributes ) {
 		$style = '';
 		foreach ( array(
-			'bgColor'     => '--aldv-bg',
-			'borderColor' => '--aldv-border',
+			'bgColor'      => '--aldv-bg',
+			'borderColor'  => '--aldv-border',
+			'toolbarBg'    => '--aldv-toolbar-bg',
+			'toolbarColor' => '--aldv-toolbar-color',
+			'headBg'       => '--aldv-head-bg',
+			'headColor'    => '--aldv-head-color',
 		) as $attr => $var ) {
 			$color = self::color( isset( $attributes[ $attr ] ) ? $attributes[ $attr ] : '' );
 			if ( $color ) {
 				$style .= $var . ':' . $color . ';';
 			}
+		}
+		$height = self::height( $attributes );
+		if ( $height ) {
+			$style .= '--aldv-height:' . $height . ';';
 		}
 		return $style;
 	}
@@ -145,11 +159,15 @@ class Block {
 	// settings read by view.js
 	public static function config( $attributes, $file ) {
 		$config = array(
-			'viewer'   => $file['viewer'],
-			'ext'      => $file['ext'],
-			'url'      => $file['url'],
-			'name'     => $file['name'],
-			'download' => ! isset( $attributes['showDownload'] ) || (bool) $attributes['showDownload'],
+			'viewer'     => $file['viewer'],
+			'ext'        => $file['ext'],
+			'url'        => $file['url'],
+			'name'       => $file['name'],
+			'download'   => ! isset( $attributes['showDownload'] ) || (bool) $attributes['showDownload'],
+			'fullscreen' => ! isset( $attributes['showFullscreen'] ) || (bool) $attributes['showFullscreen'],
+			'zoom'       => ! isset( $attributes['showZoom'] ) || (bool) $attributes['showZoom'],
+			// the viewer scrolls inside the block
+			'fixed'      => '' !== self::height( $attributes ),
 		);
 		// spreadsheets: the first row as the header, and the sheet that opens first ('' = the first one)
 		if ( 'sheet' === $file['viewer'] ) {

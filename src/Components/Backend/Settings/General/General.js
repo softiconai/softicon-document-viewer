@@ -1,10 +1,13 @@
 import { __ } from '@wordpress/i18n';
-import { SelectControl } from '@wordpress/components';
+import { RangeControl, SelectControl } from '@wordpress/components';
 import { HelpCards, Panel, ToggleRow } from '../../../../vendor/softicon-tools/components/Panels';
 import { helpCards } from '../../../../utils/options';
+import { heightOf } from '../../../../utils/functions';
 
 const General = ( { attributes, setAttributes, file, sheets = [] } ) => {
-	const { showDownload, headerRow, firstSheet } = attributes;
+	const { showDownload, showFullscreen, showZoom, maxHeight, headerRow, firstSheet } = attributes;
+	// zoom is for pages (PDF, Word); a table is read at its own size
+	const zoomable = file && 'sheet' !== file.viewer;
 	const set = ( key ) => ( val ) => setAttributes( { [ key ]: val } );
 
 	return <>
@@ -21,6 +24,32 @@ const General = ( { attributes, setAttributes, file, sheets = [] } ) => {
 			<p className="aldvHelp">{ __( 'Change the file with Replace in the block toolbar.', 'softicon-document-viewer' ) }</p>
 
 			<ToggleRow label={ __( 'Download button', 'softicon-document-viewer' ) } tip={ __( 'Lets visitors save the file.', 'softicon-document-viewer' ) } checked={ showDownload } onChange={ set( 'showDownload' ) } />
+		</Panel>
+
+		<Panel id="toolbar" title={ __( 'Toolbar', 'softicon-document-viewer' ) }>
+			<ToggleRow label={ __( 'Fullscreen button', 'softicon-document-viewer' ) } tip={ __( 'Opens the document over the whole screen. Not shown in the editor.', 'softicon-document-viewer' ) } checked={ showFullscreen } onChange={ set( 'showFullscreen' ) } />
+			{ zoomable && <ToggleRow label={ __( 'Zoom buttons', 'softicon-document-viewer' ) } tip={ __( 'Let visitors make the pages bigger or smaller.', 'softicon-document-viewer' ) } checked={ showZoom } onChange={ set( 'showZoom' ) } /> }
+		</Panel>
+
+		<Panel id="size" title={ __( 'Size', 'softicon-document-viewer' ) }>
+			<ToggleRow
+				label={ __( 'Fixed height', 'softicon-document-viewer' ) }
+				tip={ __( 'Off: the whole document shows and the page grows with it. On: the document scrolls inside a box of this height.', 'softicon-document-viewer' ) }
+				checked={ !! heightOf( maxHeight ) }
+				onChange={ ( on ) => setAttributes( { maxHeight: on ? '600px' : '' } ) }
+			/>
+			{ /* stored as a CSS length ("600px"), so other units can come later without a new attribute */ }
+			{ !! heightOf( maxHeight ) && <RangeControl
+				label={ __( 'Height (px)', 'softicon-document-viewer' ) }
+				value={ parseInt( maxHeight, 10 ) || 600 }
+				min={ 200 }
+				max={ 2000 }
+				step={ 50 }
+				onChange={ ( value ) => setAttributes( { maxHeight: ( value || 600 ) + 'px' } ) }
+				__nextHasNoMarginBottom
+				__next40pxDefaultSize
+			/> }
+			<p className="aldvHelp">{ __( 'Use Wide or Full width in the block toolbar for a larger viewer.', 'softicon-document-viewer' ) }</p>
 		</Panel>
 
 		{ 'sheet' === file?.viewer && <Panel id="sheet" title={ __( 'Spreadsheet', 'softicon-document-viewer' ) }>

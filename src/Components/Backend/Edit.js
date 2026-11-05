@@ -8,7 +8,7 @@ import Settings from './Settings/Settings';
 import FileCard from './FileCard';
 import { blockIcon } from '../../utils/icons';
 import { accept, mimeTypes } from '../../utils/options';
-import { cssVars, extOf, fileInfo, fromMedia, fromUrl, toConfig } from '../../utils/functions';
+import { cssVars, extOf, fileInfo, fromMedia, fromUrl, heightOf, toConfig } from '../../utils/functions';
 import { viewers } from '../../viewer/viewers';
 import { errorText, reasonOf } from '../../viewer/messages';
 
@@ -32,7 +32,7 @@ const usePreview = ( stage, configKey ) => {
 		load()
 			.then( ( { default: Viewer } ) => {
 				if ( ! closed ) {
-					viewer = new Viewer( el.parentElement, config, { onSheets: setSheets } );
+					viewer = new Viewer( el.parentElement, config, { onSheets: setSheets, editor: true } );
 					return viewer.init();
 				}
 			} )
@@ -61,8 +61,8 @@ const Edit = ( { attributes, setAttributes } ) => {
 	const assetsRef = useIframeAssets( [ 'softicon-document-viewer-style-css', 'softicon-document-viewer-editor-style-css' ] );
 	const file = fileInfo( attributes );
 	const stage = useRef();
-	// the Download button is in the file card, not the viewer: turning it on or off does not reopen the file
-	const preview = file ? { ...toConfig( file, attributes ), download: true } : null;
+	// Download is in the file card and Fullscreen is not shown in the editor: turning them on or off does not reopen the file
+	const preview = file ? { ...toConfig( file, attributes ), download: true, fullscreen: true } : null;
 	const { failed, sheets } = usePreview( stage, preview ? JSON.stringify( preview ) : '' );
 
 	const pick = ( patch ) => {
@@ -72,7 +72,7 @@ const Edit = ( { attributes, setAttributes } ) => {
 
 	const blockProps = useBlockProps( {
 		ref: assetsRef,
-		className: file ? 'aldv_viewer aldv_' + file.viewer : undefined,
+		className: file ? 'aldv_viewer aldv_' + file.viewer + ( heightOf( attributes.maxHeight ) ? ' aldv_fixed' : '' ) : undefined,
 		style: file ? cssVars( attributes ) : undefined,
 	} );
 

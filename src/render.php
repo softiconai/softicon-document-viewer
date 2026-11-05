@@ -14,7 +14,7 @@ $aldv_config = ALDV_Document_Viewer\Block::config( $attributes, $aldv_file );
 
 $aldv_wrapper = get_block_wrapper_attributes(
 	array(
-		'class'     => 'aldv_viewer aldv_' . $aldv_file['viewer'],
+		'class'     => 'aldv_viewer aldv_' . $aldv_file['viewer'] . ( $aldv_config['fixed'] ? ' aldv_fixed' : '' ),
 		'style'     => ALDV_Document_Viewer\Block::style( $attributes ),
 		// hex flags keep quotes and ampersands from breaking the attribute or JSON.parse
 		'data-aldv' => wp_json_encode( $aldv_config, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ),
@@ -29,9 +29,13 @@ $aldv_wrapper = get_block_wrapper_attributes(
 			<span class="aldv_file_name"><?php echo esc_html( $aldv_file['name'] ); ?></span>
 			<span class="aldv_file_type"><?php echo esc_html( ALDV_Document_Viewer\Block::type_label( $aldv_file['ext'] ) ); ?></span>
 		</span>
-		<?php if ( $aldv_config['download'] ) : ?>
-			<a class="aldv_download wp-element-button" href="<?php echo esc_url( $aldv_file['url'] ); ?>" download><?php esc_html_e( 'Download', 'softicon-document-viewer' ); ?></a>
-		<?php endif; ?>
+		<span class="aldv_actions">
+			<?php // the viewer's buttons (zoom, page, fullscreen) go here ?>
+			<span class="aldv_tools"></span>
+			<?php if ( $aldv_config['download'] ) : ?>
+				<a class="aldv_download wp-element-button" href="<?php echo esc_url( $aldv_file['url'] ); ?>" download><?php esc_html_e( 'Download', 'softicon-document-viewer' ); ?></a>
+			<?php endif; ?>
+		</span>
 	</div>
 	<div class="aldv_stage" hidden></div>
 </div>

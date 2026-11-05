@@ -12,7 +12,7 @@ const Settings = ( { attributes, setAttributes, file, sheets } ) => {
 			{ ( tab ) => <PanelGroup key={ tab.name } initial={ 'style' === tab.name ? 'colors' : 'file' }>
 				{ 'general' === tab.name && <General { ...{ attributes, setAttributes, file, sheets } } /> }
 
-				{ 'style' === tab.name && <Style { ...{ attributes, setAttributes } } /> }
+				{ 'style' === tab.name && <Style { ...{ attributes, setAttributes, file } } /> }
 
 				{ /* Add-ons append their own panels to either tab. */ }
 				{ applyFilters( 'aldv.block.inspector', null, { tab: tab.name, attributes, setAttributes, file } ) }

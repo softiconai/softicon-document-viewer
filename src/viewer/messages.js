@@ -10,6 +10,20 @@ export const pageLabel = ( page, total ) => sprintf(
 	total
 );
 
+// the toolbar
+export const toolbarText = () => ( {
+	zoomIn: __( 'Zoom in', 'softicon-document-viewer' ),
+	zoomOut: __( 'Zoom out', 'softicon-document-viewer' ),
+	zoomReset: ( level ) => sprintf(
+		/* translators: 1: the zoom level now, like 150% */
+		__( 'Zoom %1$s, back to 100%%', 'softicon-document-viewer' ),
+		level
+	),
+	fullscreen: __( 'Fullscreen', 'softicon-document-viewer' ),
+	exitFullscreen: __( 'Exit fullscreen', 'softicon-document-viewer' ),
+	page: pageLabel,
+} );
+
 // spreadsheets
 export const sheetsLabel = () => __( 'Sheets', 'softicon-document-viewer' );
 export const emptySheetText = () => __( 'This sheet is empty.', 'softicon-document-viewer' );
