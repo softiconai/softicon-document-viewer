@@ -78,7 +78,7 @@ class Block {
 	// a media library file wins over the saved url, so a changed site url still works
 	public static function file( $attributes ) {
 		$id   = isset( $attributes['fileId'] ) ? absint( $attributes['fileId'] ) : 0;
-		$name = isset( $attributes['fileName'] ) ? sanitize_text_field( (string) $attributes['fileName'] ) : '';
+		$name = isset( $attributes['fileName'] ) ? trim( wp_strip_all_tags( (string) $attributes['fileName'] ) ) : '';
 		$url  = '';
 
 		if ( $id && self::may_use( $id ) ) {

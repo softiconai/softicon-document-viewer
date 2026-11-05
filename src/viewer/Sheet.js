@@ -21,6 +21,11 @@ class Reader {
 		try {
 			this.worker = new Worker( /* webpackChunkName: "sheet-worker" */ new URL( './sheetWorker.js', import.meta.url ) );
 			this.worker.onmessage = ( { data } ) => {
+				// the worker started: from now on an error means it broke on the file, not that it could not load
+				if ( data.ready ) {
+					this.ready = true;
+					return;
+				}
 				const call = this.calls.get( data.id );
 				this.calls.delete( data.id );
 				if ( call ) {
@@ -32,7 +37,8 @@ class Reader {
 					}
 				}
 			};
-			// the worker script did not load: the waiting calls run in the page
+			// the worker script did not load: the waiting calls run in the page; a worker that broke on the
+			// file (out of memory) does not get a second try in the page, where nothing can stop it
 			this.worker.onerror = ( event ) => {
 				event.preventDefault?.();
 				this.stop();
@@ -40,7 +46,11 @@ class Reader {
 				this.calls.clear();
 				waiting.forEach( ( call ) => {
 					clearTimeout( call.timer );
-					this.local( call.message ).then( call.resolve, call.reject );
+					if ( this.ready ) {
+						call.reject( failure( 'Worker stopped', 'large' ) );
+					} else {
+						this.local( call.message ).then( call.resolve, call.reject );
+					}
 				} );
 			};
 		} catch ( e ) {

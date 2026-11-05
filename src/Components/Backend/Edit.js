@@ -2,6 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { BlockControls, BlockIcon, MediaPlaceholder, MediaReplaceFlow, useBlockProps } from '@wordpress/block-editor';
 import { Notice } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
 // copied from the shared softicon-tools folder by `npm run tools` (prebuild), edit it there
 import useIframeAssets from '../../vendor/softicon-tools/hooks/useIframeAssets';
 import Settings from './Settings/Settings';
@@ -14,16 +15,19 @@ import { errorText, reasonOf } from '../../viewer/messages';
 
 // the live preview: the same viewer the page uses, opened in the block's .aldv_stage; it opens again when
 // the file or a setting the viewer reads changes. Gives the reason the file could not be shown ('' while it can)
-// and a spreadsheet's sheet names for the First sheet setting.
+// and a spreadsheet's sheet names for the First sheet setting, and whether the viewer is open: React owns the
+// block's class list, so the classes the viewer adds (aldv_open, aldv_ready) are set through useBlockProps too.
 const usePreview = ( stage, configKey ) => {
 	const [ failed, setFailed ] = useState( '' );
 	const [ sheets, setSheets ] = useState( [] );
+	const [ open, setOpen ] = useState( false );
 
 	useEffect( () => {
 		const el = stage.current;
 		const config = configKey ? JSON.parse( configKey ) : null;
 		const load = config && viewers[ config.viewer ];
 		setFailed( '' );
+		setOpen( false );
 		if ( ! el || ! load ) {
 			return;
 		}
@@ -33,7 +37,7 @@ const usePreview = ( stage, configKey ) => {
 			.then( ( { default: Viewer } ) => {
 				if ( ! closed ) {
 					viewer = new Viewer( el.parentElement, config, { onSheets: setSheets, editor: true } );
-					return viewer.init();
+					return viewer.init().then( () => ! closed && setOpen( true ) );
 				}
 			} )
 			.catch( ( error ) => {
@@ -41,6 +45,7 @@ const usePreview = ( stage, configKey ) => {
 					return;
 				}
 				viewer?.destroy();
+				setOpen( false );
 				setFailed( reasonOf( error, config.url, el.ownerDocument.defaultView ) );
 				// eslint-disable-next-line no-console
 				console.error( 'SoftIcon Document Viewer:', error );
@@ -51,7 +56,7 @@ const usePreview = ( stage, configKey ) => {
 		};
 	}, [ stage, configKey ] );
 
-	return { failed, sheets };
+	return { failed, sheets, open };
 };
 
 const Edit = ( { attributes, setAttributes } ) => {
@@ -59,11 +64,17 @@ const Edit = ( { attributes, setAttributes } ) => {
 	const [ error, setError ] = useState( '' );
 	// a block installed from the inserter's search gets these only in the top window
 	const assetsRef = useIframeAssets( [ 'softicon-document-viewer-style-css', 'softicon-document-viewer-editor-style-css' ] );
-	const file = fileInfo( attributes );
+	const { mediaUrl, isPreview } = useSelect( ( select ) => ( {
+		// a Media Library file's address now, the way the page uses it (the saved one may be from before a move)
+		mediaUrl: fileId ? select( 'core' ).getMedia( fileId, { context: 'view' } )?.source_url : undefined,
+		// the inserter's and the pattern previews: no file is opened there, only the card shows
+		isPreview: select( 'core/block-editor' ).getSettings().isPreviewMode,
+	} ), [ fileId ] );
+	const file = fileInfo( { ...attributes, fileUrl: mediaUrl || fileUrl } );
 	const stage = useRef();
 	// Download is in the file card and Fullscreen is not shown in the editor: turning them on or off does not reopen the file
-	const preview = file ? { ...toConfig( file, attributes ), download: true, fullscreen: true } : null;
-	const { failed, sheets } = usePreview( stage, preview ? JSON.stringify( preview ) : '' );
+	const preview = file && ! isPreview ? { ...toConfig( file, attributes ), download: true, fullscreen: true } : null;
+	const { failed, sheets, open } = usePreview( stage, preview ? JSON.stringify( preview ) : '' );
 
 	const pick = ( patch ) => {
 		setError( '' );
@@ -72,7 +83,7 @@ const Edit = ( { attributes, setAttributes } ) => {
 
 	const blockProps = useBlockProps( {
 		ref: assetsRef,
-		className: file ? 'aldv_viewer aldv_' + file.viewer + ( heightOf( attributes.maxHeight ) ? ' aldv_fixed' : '' ) : undefined,
+		className: file ? 'aldv_viewer aldv_' + file.viewer + ( heightOf( attributes.maxHeight ) ? ' aldv_fixed' : '' ) + ( open ? ' aldv_open aldv_ready' : '' ) : undefined,
 		style: file ? cssVars( attributes ) : undefined,
 	} );
 

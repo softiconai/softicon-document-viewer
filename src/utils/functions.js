@@ -24,7 +24,9 @@ export const fileInfo = ( { fileUrl, fileName } ) => {
 	if ( ! fileUrl || ! type ) {
 		return null;
 	}
-	return { url: fileUrl, ext, viewer: type.viewer, label: type.label, name: fileName || baseName( fileUrl ) };
+	// tags out, like wp_strip_all_tags() in Block::file()
+	const name = ( fileName || '' ).replace( /<[^>]*>/g, '' ).trim();
+	return { url: fileUrl, ext, viewer: type.viewer, label: type.label, name: name || baseName( fileUrl ) };
 };
 
 // a media library item or a fresh upload

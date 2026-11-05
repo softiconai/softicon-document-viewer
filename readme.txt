@@ -23,7 +23,11 @@ Show PDF, Word, Excel and CSV files on your pages with a block. The files open i
 * **Live preview** – the block editor shows the real file, not a placeholder.
 * **No outside viewer** – nothing is sent to Google or Microsoft, so it works on intranets, local sites and members-only sites.
 * **No cookies, no tracking** – the plugin sends nothing anywhere.
-* **Download button** – visitors can save the file, or you turn the button off.
+* **Loads only where it is used** – the viewer's code loads only on pages with the block, and only the part for that kind of file, when the block comes near the screen.
+
+= Privacy =
+
+The plugin stores no data, sets no cookies and contacts no outside service. Your files are read by the visitor's browser straight from your site. If you link a file on another website, the visitor's browser loads it from there.
 
 = Third-party libraries =
 
@@ -63,13 +67,27 @@ Text, headings, lists, tables, images, headers and footers come through well. Co
 
 = How big can a spreadsheet be? =
 
-Files up to 50 MB open. A sheet shows its first 20,000 rows, 500 at a time as visitors scroll; the Download button gives them the whole file.
+Files up to 50 MB open. A sheet shows up to 20,000 rows and 1,000 columns, and more rows appear as visitors scroll; the Download button gives them the whole file. A note under the table says when a sheet is bigger than that.
+
+= Does it work with my theme and page builder? =
+
+It is a block, so it works wherever the block editor does: block themes, classic themes and the Site Editor. There is no shortcode or page builder widget.
 
 = A file with a password does not open =
 
 The block cannot show a PDF, Word or Excel file that needs a password. Save it without one, or leave the Download button on so visitors can open it on their device.
 
+== Screenshots ==
+
+1. A PDF on the page. The toolbar with zoom, the page number, fullscreen and Download stays in view while you scroll.
+2. A Word file as real, searchable text, with its headings, lists, tables, images, headers and footers.
+3. An Excel file with sheet tabs, Excel's number and date formats, and a header row and row numbers that stay in view.
+4. On phones: PDF pages fit the screen, Word text flows to the screen width, and tables scroll sideways.
+5. Fullscreen, here with the PDF zoomed in.
+6. The live preview in the block editor, with the spreadsheet settings.
+7. A fixed height: the document scrolls inside the block.
+
 == Changelog ==
 
 = 1.0.0 =
-* First release.
+* First release: PDF, Word (DOCX), Excel (XLSX, XLS) and CSV viewer block with live preview, toolbar (zoom, page number, fullscreen, download), fixed or automatic height and colors.

@@ -34,7 +34,7 @@ const General = ( { attributes, setAttributes, file, sheets = [] } ) => {
 		<Panel id="size" title={ __( 'Size', 'softicon-document-viewer' ) }>
 			<ToggleRow
 				label={ __( 'Fixed height', 'softicon-document-viewer' ) }
-				tip={ __( 'Off: the whole document shows and the page grows with it. On: the document scrolls inside a box of this height.', 'softicon-document-viewer' ) }
+				tip={ __( 'Off: a PDF or Word file shows in full and the page grows with it; a table scrolls inside a box of up to 720px. On: the document scrolls inside a box of this height.', 'softicon-document-viewer' ) }
 				checked={ !! heightOf( maxHeight ) }
 				onChange={ ( on ) => setAttributes( { maxHeight: on ? '600px' : '' } ) }
 			/>

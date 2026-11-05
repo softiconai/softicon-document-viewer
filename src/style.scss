@@ -3,6 +3,9 @@
 .aldv_viewer {
 	box-sizing: border-box;
 	overflow: hidden;
+	// clip, not hidden, where the browser knows it:
+	// hidden would stop the toolbar from sticking
+	overflow: clip;
 	border: 1px solid var(--aldv-border, rgba(0, 0, 0, 0.14));
 	border-radius: 12px;
 	background: var(--aldv-bg, transparent);
@@ -204,8 +207,8 @@
 
 	&[aria-selected="true"] {
 		border-color: var(--aldv-border, rgba(0, 0, 0, 0.14));
-		border-bottom-color: var(--aldv-sheet-bg, #fff);
-		background: var(--aldv-sheet-bg, #fff);
+		border-bottom-color: var(--aldv-sheet-bg, var(--aldv-bg, #fff));
+		background: var(--aldv-sheet-bg, var(--aldv-bg, #fff));
 		font-weight: 600;
 	}
 
@@ -218,7 +221,7 @@
 .aldv_sheet_scroll {
 	overflow: auto;
 	max-height: var(--aldv-height, min(75vh, 720px));
-	background: var(--aldv-sheet-bg, #fff);
+	background: var(--aldv-sheet-bg, var(--aldv-bg, #fff));
 	color: #1e1e1e;
 
 	&:focus-visible {
@@ -259,10 +262,11 @@
 		font-weight: 600;
 	}
 
+	// a softer color, not opacity: the sticky cell must stay solid
 	.aldv_col {
+		color: var(--aldv-head-color, #6b7280);
 		font-weight: 400;
 		text-align: center;
-		opacity: 0.8;
 	}
 
 	// the row numbers, and the corner where they meet the header
@@ -283,7 +287,7 @@
 	}
 
 	.aldv_row {
-		color: #6b7280;
+		color: var(--aldv-head-color, #6b7280);
 		font-size: 0.85em;
 	}
 
@@ -339,6 +343,38 @@
 	justify-content: flex-end;
 	gap: 8px;
 	margin-inline-start: auto;
+
+	// a phone: buttons on the left, a smaller Download on the right, one row
+	@media (max-width: 600px) {
+		flex: 1 1 100%;
+		flex-wrap: nowrap;
+		justify-content: space-between;
+
+		.aldv_download {
+			padding: 0.55em 1em;
+			font-size: 0.875em;
+		}
+
+		// phones zoom with two fingers; the buttons would not fit next to Download
+		.aldv_btn_zoomOut,
+		.aldv_btn_zoomIn,
+		.aldv_zoom_level {
+			display: none;
+		}
+	}
+}
+
+// a long PDF or Word file (Auto height): the toolbar stays at the top
+// of the screen while the document is in view (not on phones, where the
+// card is tall; a fixed height or a table scrolls inside the block)
+@media (min-width: 601px) {
+
+	.aldv_open:not(.aldv_fixed):not(.aldv_sheet) .aldv_file {
+		position: sticky;
+		z-index: 3;
+		top: var(--wp-admin--admin-bar--height, 0);
+		background: var(--aldv-toolbar-bg, var(--aldv-bg, var(--wp--preset--color--base, #fff)));
+	}
 }
 
 .aldv_tools {

@@ -24,8 +24,16 @@ const start = async ( el ) => {
 	} catch ( e ) {
 		return;
 	}
-	const load = viewers[ config.viewer ];
+	// only the plugin's own viewers, and only web addresses: post content can hold a hand-written data-aldv
+	const load = Object.prototype.hasOwnProperty.call( viewers, config.viewer ) && viewers[ config.viewer ];
 	if ( ! load ) {
+		return;
+	}
+	try {
+		if ( ! [ 'http:', 'https:' ].includes( new URL( config.url, window.location.href ).protocol ) ) {
+			return;
+		}
+	} catch ( e ) {
 		return;
 	}
 	try {

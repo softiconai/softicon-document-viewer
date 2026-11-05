@@ -4,6 +4,9 @@ import { prepareSheet, readBook, reasonFor, sheetNames } from './sheetData';
 
 let book = null;
 
+// tells the page the worker is running (see Reader in Sheet.js)
+self.postMessage( { ready: true } );
+
 self.onmessage = ( { data } ) => {
 	const { id, type } = data;
 	try {
