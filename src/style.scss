@@ -126,8 +126,15 @@
 	}
 }
 
-// PDF: white pages one below the other on a grey desk
-.aldv_pdf .aldv_stage {
+// the Word file's own CSS stays inside the block:
+// fixed or huge z-index elements are clipped to the stage
+.aldv_docx .aldv_stage {
+	contain: paint;
+}
+
+// PDF and Word: white pages one below the other on a grey desk
+.aldv_pdf .aldv_stage,
+.aldv_docx .aldv_stage {
 	padding: 16px;
 	background: rgba(127, 127, 127, 0.12);
 

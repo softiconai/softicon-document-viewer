@@ -41,6 +41,10 @@ export const errorText = ( reason, editor = false ) => {
 			return editor
 				? __( 'This file looks damaged, so it cannot be shown here. Open it on your computer and save it again.', 'softicon-document-viewer' )
 				: __( 'This file looks damaged, so it cannot be shown here.', 'softicon-document-viewer' );
+		case 'large':
+			return editor
+				? __( 'This file is over 50 MB, too large to open in a browser. Make it smaller, or leave the Download button on so visitors can open it.', 'softicon-document-viewer' )
+				: __( 'This file is too large to show here.', 'softicon-document-viewer' );
 		case 'cors':
 			return editor
 				? __( 'This file is on another website that does not allow it to be shown here. Upload the file to your Media Library instead.', 'softicon-document-viewer' )

@@ -8,7 +8,7 @@ import Settings from './Settings/Settings';
 import FileCard from './FileCard';
 import { blockIcon } from '../../utils/icons';
 import { accept, mimeTypes } from '../../utils/options';
-import { cssVars, fileInfo, fromMedia, fromUrl } from '../../utils/functions';
+import { cssVars, extOf, fileInfo, fromMedia, fromUrl } from '../../utils/functions';
 import { viewers } from '../../viewer/viewers';
 import { errorText, reasonOf } from '../../viewer/messages';
 
@@ -117,7 +117,9 @@ const Edit = ( { attributes, setAttributes } ) => {
 					{ /* the viewer fills this, React leaves its content alone */ }
 					<div className="aldv_stage" ref={ stage } />
 				</>
-				: <Notice status="warning" isDismissible={ false }>{ __( 'This file cannot be shown, so the page leaves the block out. Pick a PDF, DOCX, XLSX, XLS or CSV file.', 'softicon-document-viewer' ) }</Notice> }
+				: <Notice status="warning" isDismissible={ false }>{ 'doc' === extOf( fileUrl )
+					? __( 'Old Word files (.doc) cannot be shown. Open the file in Word, save it as .docx and pick that file instead.', 'softicon-document-viewer' )
+					: __( 'This file cannot be shown, so the page leaves the block out. Pick a PDF, DOCX, XLSX, XLS or CSV file.', 'softicon-document-viewer' ) }</Notice> }
 		</div>
 	</>;
 };

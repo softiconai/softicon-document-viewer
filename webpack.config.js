@@ -24,14 +24,15 @@ module.exports = {
 	...defaultConfig,
 	// the lazy viewer chunks get a version, so a browser never mixes a cached old chunk with a new view.js
 	output: { ...defaultConfig.output, chunkFilename: '[name].js?ver=[contenthash:8]' },
-	// pdf.js gets its own chunk under its own name (readme.txt names it), loaded together with viewer-pdf.js
+	// each library gets its own chunk under its own name (readme.txt names them), loaded together with its viewer
 	optimization: {
 		...defaultConfig.optimization,
 		splitChunks: {
 			...defaultConfig.optimization.splitChunks,
 			cacheGroups: {
 				...defaultConfig.optimization.splitChunks.cacheGroups,
-				pdfjs: { test: /[\\/]node_modules[\\/]pdfjs-dist[\\/]/, name: 'pdfjs', chunks: 'async', enforce: true }
+				pdfjs: { test: /[\\/]node_modules[\\/]pdfjs-dist[\\/]/, name: 'pdfjs', chunks: 'async', enforce: true },
+				docx: { test: /[\\/]node_modules[\\/](docx-preview|jszip)[\\/]/, name: 'docx-preview', chunks: 'async', enforce: true }
 			}
 		}
 	},
@@ -48,7 +49,9 @@ module.exports = {
 				// JavaScript JPEG 2000 / JBIG2 decoders (the WebAssembly builds are not shipped)
 				{ from: pdfjs + 'wasm/*_nowasm_fallback.js', to: 'pdfjs/decoders/[name][ext]' },
 				...licenses('wasm', 'decoders', ['LICENSE_OPENJPEG', 'LICENSE_PDFJS_OPENJPEG', 'LICENSE_JBIG2', 'LICENSE_PDFJS_JBIG2']),
-				{ from: pdfjs + 'LICENSE', to: 'pdfjs/LICENSE.txt' }
+				{ from: pdfjs + 'LICENSE', to: 'pdfjs/LICENSE.txt' },
+				{ from: 'node_modules/docx-preview/LICENSE', to: 'docx-preview-LICENSE.txt' },
+				{ from: 'node_modules/jszip/LICENSE.markdown', to: 'jszip-LICENSE.txt' }
 			]
 		})
 	]

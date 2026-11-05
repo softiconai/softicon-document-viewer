@@ -25,6 +25,7 @@
 		"copy-webpack-plugin": "^10.2.4"
 	},
 	"dependencies": {
+		"docx-preview": "0.4.1",
 		"pdfjs-dist": "6.5.438"
 	}
 }
