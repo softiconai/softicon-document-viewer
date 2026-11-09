@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "softicon/document-viewer",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"title": "Document Viewer",
 	"category": "media",
 	"description": "Show a PDF, Word, Excel or CSV file on the page. It opens in the visitor's browser, no outside viewer.",

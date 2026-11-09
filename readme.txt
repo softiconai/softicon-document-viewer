@@ -1,10 +1,10 @@
-=== SoftIcon Document Viewer ===
+=== SoftIcon Document Viewer – Embed PDF, Word & Excel Files ===
 Contributors: softiconai
 Tags: document viewer, docx viewer, excel viewer, embed document, block
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -88,6 +88,9 @@ The block cannot show a PDF, Word or Excel file that needs a password. Save it w
 7. A fixed height: the document scrolls inside the block.
 
 == Changelog ==
+
+= 1.0.1 =
+* The plugin's full name: SoftIcon Document Viewer – Embed PDF, Word & Excel Files.
 
 = 1.0.0 =
 * First release: PDF, Word (DOCX), Excel (XLSX, XLS) and CSV viewer block with live preview, toolbar (zoom, page number, fullscreen, download), fixed or automatic height and colors.
