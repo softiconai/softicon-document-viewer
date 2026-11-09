@@ -21,7 +21,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'ALDV_PLUGIN_VERSION', '1.0.0' );
 define( 'ALDV_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-define( 'ALDV_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-require_once ALDV_PLUGIN_PATH . 'includes/class-aldv-document-viewer.php';
-ALDV_Document_Viewer::get_instance();
+require_once ALDV_PLUGIN_PATH . 'includes/class-block.php';
+new ALDV_Document_Viewer\Block();
+
+// add-ons hook in here
+do_action( 'aldv_loaded' );

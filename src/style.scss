@@ -1,3 +1,12 @@
+// where the build folder is, for src/public-path.js when a JS combine
+// plugin moved view.js; WordPress makes this url absolute when it prints
+// the CSS inline
+:root {
+	// a name in the folder, never loaded (the minifier would turn ./ into /;
+	// webpack.config.js tells css-loader not to look for the file)
+	--aldv-build: url(./aldv);
+}
+
 // logical properties (inline-start/end) keep the layout right for RTL
 // languages without an -rtl.css copy
 .aldv_viewer {

@@ -1,6 +1,6 @@
 === SoftIcon Document Viewer ===
 Contributors: softiconai
-Tags: document viewer, docx viewer, excel viewer, embed document, office viewer
+Tags: document viewer, docx viewer, excel viewer, embed document, block
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4

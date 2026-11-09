@@ -9,8 +9,7 @@ class Block {
 
 	const NAME = 'softicon/document-viewer';
 
-	// the files the block shows: extension => viewer and the MIME types WordPress gives such a file
-	// (the same list is in src/utils/options.js)
+	// extension => viewer and MIME types; the same list is in src/utils/options.js
 	const TYPES = array(
 		'pdf'  => array(
 			'viewer' => 'pdf',
@@ -41,14 +40,9 @@ class Block {
 
 	public function register() {
 		register_block_type( ALDV_PLUGIN_PATH . 'build' );
-
-		// the real build url for the lazy viewer chunks, JS combine plugins move view.js elsewhere
-		$build_url = 'window.aldvBuildUrl = ' . wp_json_encode( ALDV_PLUGIN_URL . 'build/' ) . ';';
-		wp_add_inline_script( generate_block_asset_handle( self::NAME, 'viewScript' ), $build_url, 'before' );
-		wp_add_inline_script( generate_block_asset_handle( self::NAME, 'editorScript' ), $build_url, 'before' );
 	}
 
-	// the block has its own General and Style tabs; without this WordPress adds its Settings/Styles tabs above them
+	// the block has its own General and Style tabs, not WordPress's Settings/Styles tabs
 	public function no_inspector_tabs( $settings ) {
 		$tabs                           = isset( $settings['blockInspectorTabs'] ) && is_array( $settings['blockInspectorTabs'] ) ? $settings['blockInspectorTabs'] : array();
 		$tabs[ self::NAME ]             = false;
@@ -56,8 +50,8 @@ class Block {
 		return $settings;
 	}
 
-	// a media id from the block is turned into its file only when that file is not attached, sits on a public post,
-	// or this post's author may edit it; otherwise a contributor could step through ids to find files of private drafts
+	// a media id becomes its file only when it is unattached, on a public post, or editable by this post's author:
+	// otherwise a contributor could try ids to find files of private drafts
 	public static function may_use( $id ) {
 		$parent = (int) wp_get_post_parent_id( $id );
 		if ( ! $parent || is_post_publicly_viewable( $parent ) ) {
@@ -68,14 +62,13 @@ class Block {
 		return $author && user_can( $author, 'edit_post', $id );
 	}
 
-	// lower-case extension of a url or path, without a query string
+	// lower-case extension, without a query string
 	public static function extension( $url ) {
 		$path = wp_parse_url( (string) $url, PHP_URL_PATH );
 		return strtolower( pathinfo( is_string( $path ) ? $path : '', PATHINFO_EXTENSION ) );
 	}
 
-	// the file to show: url, name, extension and viewer, or null for a missing or unsupported file;
-	// a media library file wins over the saved url, so a changed site url still works
+	// url, name, extension and viewer, or null; a media library file wins over the saved url (site moves)
 	public static function file( $attributes ) {
 		$id   = isset( $attributes['fileId'] ) ? absint( $attributes['fileId'] ) : 0;
 		$name = isset( $attributes['fileName'] ) ? trim( wp_strip_all_tags( (string) $attributes['fileName'] ) ) : '';
@@ -118,7 +111,7 @@ class Block {
 		return isset( $labels[ $ext ] ) ? $labels[ $ext ] : '';
 	}
 
-	// hex, rgb(a), hsl(a) or a preset var(), anything else is dropped
+	// hex, rgb(a), hsl(a) or a preset var(), nothing else
 	public static function color( $value ) {
 		$value = is_string( $value ) ? trim( $value ) : '';
 		if ( preg_match( '/^(#[0-9a-f]{3,8}|(rgb|hsl)a?\([0-9.,%\s\/]+\)|var\(--[a-z0-9-]+\))$/i', $value ) ) {
@@ -127,13 +120,13 @@ class Block {
 		return '';
 	}
 
-	// a fixed height for the viewer: a number with px, vh, em or rem; anything else means Auto ('')
+	// a number with px, vh, em or rem; '' is Auto
 	public static function height( $attributes ) {
 		$value = isset( $attributes['maxHeight'] ) && is_string( $attributes['maxHeight'] ) ? trim( $attributes['maxHeight'] ) : '';
 		return preg_match( '/^\d{1,4}(\.\d{1,2})?(px|vh|em|rem)$/', $value ) && (float) $value > 0 ? $value : '';
 	}
 
-	// colors and the height become css variables so the stylesheet keeps the fallbacks
+	// css variables, so the stylesheet keeps the fallbacks
 	public static function style( $attributes ) {
 		$style = '';
 		foreach ( array(
@@ -166,14 +159,11 @@ class Block {
 			'download'   => ! isset( $attributes['showDownload'] ) || (bool) $attributes['showDownload'],
 			'fullscreen' => ! isset( $attributes['showFullscreen'] ) || (bool) $attributes['showFullscreen'],
 			'zoom'       => ! isset( $attributes['showZoom'] ) || (bool) $attributes['showZoom'],
-			// the viewer scrolls inside the block
 			'fixed'      => '' !== self::height( $attributes ),
 		);
-		// spreadsheets: the first row as the header, and the sheet that opens first ('' = the first one)
 		if ( 'sheet' === $file['viewer'] ) {
 			$config['header'] = ! isset( $attributes['headerRow'] ) || (bool) $attributes['headerRow'];
-			// only compared with the sheet names, never printed as HTML (the JSON is hex-escaped); sanitize_text_field()
-			// would change names with % or <, and kses stores & as &amp; for users without unfiltered_html
+			// only compared with sheet names, never printed; kses saves & as &amp; without unfiltered_html
 			$sheet           = isset( $attributes['firstSheet'] ) ? wp_check_invalid_utf8( (string) $attributes['firstSheet'] ) : '';
 			$config['sheet'] = mb_substr( wp_specialchars_decode( $sheet, ENT_QUOTES ), 0, 31 );
 		}

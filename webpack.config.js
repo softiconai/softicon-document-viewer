@@ -20,8 +20,18 @@ const licenses = (folder, to, names) => names.map(name => ({
 	to: `pdfjs/${to}/${name}.txt`
 }));
 
+// css-loader leaves url(./aldv) alone: it is a marker for the build folder (--aldv-build in style.scss), not a file
+const MARKER = /^(\.\/)?aldv$/;
+const rules = defaultConfig.module.rules.map(rule => (Array.isArray(rule.use) ? {
+	...rule,
+	use: rule.use.map(use => (use && use.options && 'importLoaders' in use.options
+		? { ...use, options: { ...use.options, url: { filter: url => !MARKER.test(url) } } }
+		: use))
+} : rule));
+
 module.exports = {
 	...defaultConfig,
+	module: { ...defaultConfig.module, rules },
 	// the lazy viewer chunks get a version, so a browser never mixes a cached old chunk with a new view.js
 	output: { ...defaultConfig.output, chunkFilename: '[name].js?ver=[contenthash:8]' },
 	// each library gets its own chunk under its own name (readme.txt names them), loaded together with its viewer
