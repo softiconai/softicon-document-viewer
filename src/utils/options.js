@@ -21,6 +21,7 @@ export const tabs = [
 
 // the cards in the Help panel
 export const helpCards = [
+	{ href: 'https://www.youtube.com/watch?v=kznWWJ8LBRU', label: __( 'Video tutorial', 'softicon-document-viewer' ), icon: shared.video },
 	{ href: 'https://wordpress.org/support/plugin/softicon-document-viewer/', label: __( 'Get support', 'softicon-document-viewer' ), icon: shared.support },
 	{ href: 'https://wordpress.org/support/plugin/softicon-document-viewer/reviews/#new-post', label: __( 'Rate Document Viewer', 'softicon-document-viewer' ), icon: shared.star },
 	{ href: 'https://wordpress.org/plugins/author/softiconai/', label: __( 'More plugins', 'softicon-document-viewer' ), icon: shared.plugins },

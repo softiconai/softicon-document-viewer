@@ -4,7 +4,7 @@ Tags: document viewer, docx viewer, excel viewer, embed document, block
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -13,6 +13,8 @@ Show PDF, Word, Excel and CSV files on your pages with a block. The files open i
 == Description ==
 
 **SoftIcon Document Viewer** adds a **Document Viewer** block to the block editor. Pick a PDF, Word (DOCX), Excel (XLSX, XLS) or CSV file from the Media Library, upload one, or paste a link.
+
+https://www.youtube.com/watch?v=d8Giuz5k7ig
 
 * **PDF in the page** – the pages show one below the other, sharp on phones and retina screens. Only the pages near the screen are drawn, and only the parts of the file they need are downloaded, so long PDFs open fast.
 * **Word as real text** – a DOCX file becomes real HTML with its headings, lists, tables, images, headers and footers, so visitors can search it and screen readers can read it. On a computer it looks like Word's pages; on a phone the text flows to the screen width so it stays readable.
@@ -48,6 +50,10 @@ The unminified source of this plugin is in the src folder, with package.json and
 3. In the block editor, add the **Document Viewer** block and pick a file.
 
 == Frequently Asked Questions ==
+
+= Is there a video tutorial? =
+
+Yes: [Every setting, explained](https://www.youtube.com/watch?v=kznWWJ8LBRU) (1:32). The Help panel in the block's settings links to it too.
 
 = Which files can it show? =
 
@@ -88,6 +94,9 @@ The block cannot show a PDF, Word or Excel file that needs a password. Save it w
 7. A fixed height: the document scrolls inside the block.
 
 == Changelog ==
+
+= 1.0.2 =
+* A video tutorial: the Help panel in the block's settings and the readme link to "Every setting, explained".
 
 = 1.0.1 =
 * The plugin's full name: SoftIcon Document Viewer – Embed PDF, Word & Excel Files.
