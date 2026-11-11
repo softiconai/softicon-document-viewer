@@ -1,6 +1,6 @@
 {
 	"name": "softicon-document-viewer",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Document viewer block for WordPress: PDF, Word, Excel and CSV files open in the browser, no outside viewer",
 	"main": "build/index.js",
 	"scripts": {

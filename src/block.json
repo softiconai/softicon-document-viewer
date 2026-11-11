@@ -2,11 +2,11 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "softicon/document-viewer",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"title": "Document Viewer",
 	"category": "media",
 	"description": "Show a PDF, Word, Excel or CSV file on the page. It opens in the visitor's browser, no outside viewer.",
-	"keywords": [ "document", "pdf", "word", "excel", "docx", "xlsx", "csv", "spreadsheet" ],
+	"keywords": [ "document", "viewer", "pdf", "word", "excel", "docx", "xlsx", "csv", "spreadsheet", "embed", "file", "reader" ],
 	"textdomain": "softicon-document-viewer",
 	"attributes": {
 		"fileId": { "type": "number", "default": 0 },

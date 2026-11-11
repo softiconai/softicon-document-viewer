@@ -4,7 +4,7 @@ Tags: document viewer, docx viewer, excel viewer, embed document, block
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -94,6 +94,9 @@ The block cannot show a PDF, Word or Excel file that needs a password. Save it w
 7. A fixed height: the document scrolls inside the block.
 
 == Changelog ==
+
+= 1.0.3 =
+* The block is easier to find in the inserter: it also answers to viewer, embed, file and reader.
 
 = 1.0.2 =
 * A video tutorial: the Help panel in the block's settings and the readme link to "Every setting, explained".
