@@ -15,7 +15,7 @@ self.onmessage = ( { data } ) => {
 			book = readBook( data.buffer, data.ext );
 			result = sheetNames( book );
 		} else if ( 'sheet' === type ) {
-			result = prepareSheet( book, data.name, data.header );
+			result = prepareSheet( book, data.name, data.header, data.range );
 		}
 		self.postMessage( { id, result } );
 	} catch ( error ) {

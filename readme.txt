@@ -4,7 +4,7 @@ Tags: document viewer, docx viewer, excel viewer, embed document, block
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.3
+Stable tag: 1.1.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -18,7 +18,7 @@ https://www.youtube.com/watch?v=d8Giuz5k7ig
 
 * **PDF in the page** – the pages show one below the other, sharp on phones and retina screens. Only the pages near the screen are drawn, and only the parts of the file they need are downloaded, so long PDFs open fast.
 * **Word as real text** – a DOCX file becomes real HTML with its headings, lists, tables, images, headers and footers, so visitors can search it and screen readers can read it. On a computer it looks like Word's pages; on a phone the text flows to the screen width so it stays readable.
-* **Excel that looks like Excel** – XLSX and XLS files show with their sheet tabs, number, currency, percent and date formats, merged cells and links. Only the used cells are shown, and the header row and row numbers stay in view while visitors scroll. Choose which sheet opens first.
+* **Excel that looks like Excel** – XLSX and XLS files show with their sheet tabs, number, currency, percent and date formats, merged cells and links. Only the used cells are shown, and the header row and row numbers stay in view while visitors scroll. Choose which sheet opens first, or show only part of it, like A1:F20.
 * **CSV as a table** – the first row is the header (or turn that off), and values stay exactly as written, so codes like 00123 keep their zeros.
 * **Toolbar** – zoom for PDF and Word, the page number for PDF, fullscreen for every file, and the Download button. Every button works with the keyboard and screen readers; turn the ones you do not need off.
 * **Your size, your colors** – the whole document grows with the page, or it scrolls inside a box of the height you set. Wide and full width are supported. Pick the background, border, toolbar and table header colors.
@@ -50,6 +50,10 @@ The unminified source of this plugin is in the src folder, with package.json and
 3. In the block editor, add the **Document Viewer** block and pick a file.
 
 == Frequently Asked Questions ==
+
+= Can I show only part of a spreadsheet? =
+
+Yes. Under Spreadsheet in the block's settings, write the cells in **Cells to show**, the way Excel does: A1:F20, whole columns (A:F) or whole rows (5:40). Only those cells of the sheet shown first appear, with their own row numbers, and without the other sheets' tabs. Leave it empty for the whole sheet.
 
 = Is there a video tutorial? =
 
@@ -94,6 +98,9 @@ The block cannot show a PDF, Word or Excel file that needs a password. Save it w
 7. A fixed height: the document scrolls inside the block.
 
 == Changelog ==
+
+= 1.1.0 =
+* New: Cells to show, for Excel and CSV files. Show only part of a sheet, such as A1:F20, whole columns (A:F) or whole rows (5:40).
 
 = 1.0.3 =
 * The block is easier to find in the inserter: it also answers to viewer, embed, file and reader.

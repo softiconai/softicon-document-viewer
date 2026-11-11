@@ -166,6 +166,11 @@ class Block {
 			// only compared with sheet names, never printed; kses saves & as &amp; without unfiltered_html
 			$sheet           = isset( $attributes['firstSheet'] ) ? wp_check_invalid_utf8( (string) $attributes['firstSheet'] ) : '';
 			$config['sheet'] = mb_substr( wp_specialchars_decode( $sheet, ENT_QUOTES ), 0, 31 );
+			// Cells to show (A1:F20), read by src/viewer/range.js
+			$range = isset( $attributes['cellRange'] ) ? (string) $attributes['cellRange'] : '';
+			if ( preg_match( '/^[A-Za-z0-9$: ]{3,30}\z/', $range ) ) {
+				$config['range'] = $range;
+			}
 		}
 		return apply_filters( 'aldv_config', $config, $attributes );
 	}

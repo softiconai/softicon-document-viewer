@@ -27,6 +27,7 @@ export const toolbarText = () => ( {
 // spreadsheets
 export const sheetsLabel = () => __( 'Sheets', 'softicon-document-viewer' );
 export const emptySheetText = () => __( 'This sheet is empty.', 'softicon-document-viewer' );
+export const emptyRangeText = () => __( 'These cells are empty.', 'softicon-document-viewer' );
 export const moreRowsLabel = ( shown, total ) => sprintf(
 	/* translators: 1: rows shown so far, 2: all rows */
 	__( 'Show more rows (%1$s of %2$s shown)', 'softicon-document-viewer' ),

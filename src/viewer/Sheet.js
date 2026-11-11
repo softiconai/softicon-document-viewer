@@ -1,7 +1,8 @@
 import { loadFile } from './loadFile';
 import { linkOut, safeHref } from './safeUrl';
-import { colsCutText, emptySheetText, moreRowsLabel, rowsCutText, sheetsLabel } from './messages';
+import { colsCutText, emptyRangeText, emptySheetText, moreRowsLabel, rowsCutText, sheetsLabel } from './messages';
 import Toolbar from './toolbar';
+import { parseRange } from './range';
 
 // cells added to the table at a time (500 rows of 50 columns)
 const STEP_CELLS = 25000;
@@ -81,7 +82,7 @@ class Reader {
 				this.book = data.readBook( message.buffer, message.ext );
 				return data.sheetNames( this.book );
 			}
-			return data.prepareSheet( this.book, message.name, message.header );
+			return data.prepareSheet( this.book, message.name, message.header, message.range );
 		} catch ( error ) {
 			throw failure( error.message, data.reasonFor( error ) );
 		}
@@ -103,6 +104,8 @@ export default class Sheet {
 		this.config = config;
 		this.onSheets = onSheets;
 		this.destroyed = false;
+		// Cells to show; one the viewer cannot read counts as none (the whole sheet, with its tabs)
+		this.range = parseRange( config.range ) ? config.range : '';
 	}
 
 	el( tag, className, text ) {
@@ -151,15 +154,17 @@ export default class Sheet {
 	async build( names ) {
 		this.onSheets?.( names );
 		const first = names.includes( this.config.sheet ) ? this.config.sheet : names[ 0 ];
+		// Cells to show is a part of the first sheet: no tabs for the others
+		const tabs = this.range ? [ first ] : names;
 
 		this.box = this.el( 'div', 'aldv_sheet' );
-		if ( names.length > 1 ) {
-			this.box.append( this.tabs( names, first ) );
+		if ( tabs.length > 1 ) {
+			this.box.append( this.tabs( tabs, first ) );
 		}
 		this.scroller = this.el( 'div', 'aldv_sheet_scroll' );
 		// the table scrolls by keyboard too
 		this.scroller.tabIndex = 0;
-		this.scroller.setAttribute( 'role', names.length > 1 ? 'tabpanel' : 'region' );
+		this.scroller.setAttribute( 'role', tabs.length > 1 ? 'tabpanel' : 'region' );
 		this.scroller.addEventListener( 'scroll', () => this.nearEnd() && this.more() );
 		this.foot = this.el( 'div', 'aldv_sheet_foot' );
 		this.box.append( this.scroller, this.foot );
@@ -228,7 +233,7 @@ export default class Sheet {
 			this.scroller.replaceChildren( this.spinner() );
 		}
 
-		const data = await this.reader.run( { type: 'sheet', name, header: !! this.config.header } );
+		const data = await this.reader.run( { type: 'sheet', name, header: !! this.config.header, range: this.range } );
 		// another tab was picked while this one was read
 		if ( this.destroyed || ticket !== this.ticket ) {
 			return;
@@ -237,7 +242,10 @@ export default class Sheet {
 		this.scroller.scrollLeft = 0;
 		if ( data.empty ) {
 			this.data = null;
-			this.scroller.replaceChildren( this.el( 'p', 'aldv_sheet_empty', emptySheetText() ) );
+			this.scroller.replaceChildren( this.el( 'p', 'aldv_sheet_empty', this.range ? emptyRangeText() : emptySheetText() ) );
+			if ( data.cutRows ) {
+				this.foot.append( this.el( 'p', 'aldv_sheet_note', rowsCutText( data.cutRows.shown, data.cutRows.total ) ) );
+			}
 			return;
 		}
 		this.data = data;

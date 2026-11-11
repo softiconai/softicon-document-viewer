@@ -4,6 +4,7 @@
 // SheetJS CE from the cdn.sheetjs.com tarball, not npm's old xlsx 0.18.5 (see PROJECT-NOTES.md §5)
 import { CFB, read, utils } from 'xlsx';
 import { zipTooBig } from './zipCheck';
+import { parseRange } from './range';
 
 // a crafted or simply huge file must not freeze the visitor's tab
 export const MAX_ROWS = 20000;
@@ -110,15 +111,19 @@ export const sheetNames = ( book ) => {
 const hasValue = ( cell ) => cell && null !== cell.v && undefined !== cell.v && '' !== cell.v;
 const textOf = ( cell ) => ( undefined !== cell.w ? String( cell.w ) : String( cell.v ?? '' ) );
 
-// One sheet ready to draw:
+// One sheet ready to draw, all of it or only the cells of a range ("A1:F20", see range.js):
 // { empty } or { titles, header, letters, body: [ { n, cells } ], cutRows, cutCols }
 // A cell is null when a merge covers it, 0 when it is empty, else { t: text, k: 'n' (number, date) | 'm'
 // (true/false, error), l: link, r: rows, c: columns }.
-export const prepareSheet = ( book, name, header ) => {
+export const prepareSheet = ( book, name, header, cells = '' ) => {
 	const sheet = book.Sheets[ name ];
 	const data = sheet?.[ '!data' ] || [];
+	const range = parseRange( cells );
+	const firstRow = range ? range.s.r : 0;
+	const lastRow = range ? range.e.r : Infinity;
+	const firstCol = range ? range.s.c : 0;
 
-	// the part with something in it; a row is only looked at up to MAX_COLS cells
+	// the part with something in it (inside the range); a row is only looked at for MAX_COLS cells
 	let top = Infinity;
 	let bottom = -1;
 	let left = Infinity;
@@ -127,8 +132,11 @@ export const prepareSheet = ( book, name, header ) => {
 	let widest = 0;
 	data.forEach( ( row, r ) => {
 		widest = Math.max( widest, row?.length || 0 );
-		const n = Math.min( row?.length || 0, MAX_COLS );
-		for ( let c = 0; c < n; c++ ) {
+		if ( r < firstRow || r > lastRow ) {
+			return;
+		}
+		const n = Math.min( row?.length || 0, firstCol + MAX_COLS, range ? range.e.c + 1 : Infinity );
+		for ( let c = firstCol; c < n; c++ ) {
 			if ( hasValue( row[ c ] ) ) {
 				top = Math.min( top, r );
 				bottom = Math.max( bottom, r );
@@ -137,8 +145,12 @@ export const prepareSheet = ( book, name, header ) => {
 			}
 		}
 	} );
+	// the real size: rows read stop at MAX_ROWS, !fullref still has all of them
+	const full = sheet[ '!fullref' ] ? utils.decode_range( sheet[ '!fullref' ] ) : null;
 	if ( bottom < 0 ) {
-		return { empty: true };
+		// a range below the rows read is not empty, it is cut off
+		const total = full ? full.e.r + 1 : 0;
+		return range && total > data.length && lastRow >= data.length ? { empty: true, cutRows: { shown: data.length, total } } : { empty: true };
 	}
 
 	// hidden rows and columns are left out
@@ -156,18 +168,21 @@ export const prepareSheet = ( book, name, header ) => {
 	}
 	// a wide sheet gets fewer rows, so the table stays under MAX_CELLS
 	rows = rows.slice( 0, Math.max( 2, Math.floor( MAX_CELLS / Math.max( 1, cols.length ) ) ) );
+	// everything with something in it is in hidden rows or columns
+	if ( ! rows.length || ! cols.length ) {
+		return { empty: true };
+	}
 
-	// the real size: rows read stop at MAX_ROWS, !fullref still has all of them
-	const full = sheet[ '!fullref' ] ? utils.decode_range( sheet[ '!fullref' ] ) : null;
+	// rows and columns the file has (inside a range), and what is shown of them, counted from the range's start
 	const lastShown = rows[ rows.length - 1 ] + 1;
-	const allRows = Math.max( full ? full.e.r + 1 : 0, bottom + 1 );
-	const allCols = Math.max( full ? full.e.c + 1 : 0, right + 1, widest );
+	const allRows = Math.min( lastRow + 1, Math.max( full ? full.e.r + 1 : 0, bottom + 1 ) );
+	const allCols = Math.min( range ? range.e.c + 1 : Infinity, Math.max( full ? full.e.c + 1 : 0, right + 1, widest ) );
 
-	const filled = ( r ) => ( data[ r ] || [] ).slice( 0, MAX_COLS ).filter( hasValue );
+	const filled = ( r ) => ( data[ r ] || [] ).slice( left, right + 1 ).filter( hasValue );
 	// a report often starts with a title in one cell (merged across) above the real column names:
 	// such rows become the caption, so the column names are the header that stays in view
 	let titles = 0;
-	if ( header ) {
+	if ( header && ! range ) {
 		while ( titles < MAX_TITLES && titles < rows.length - 1 && 1 === filled( rows[ titles ] ).length && filled( rows[ titles + 1 ] ).length > 1 ) {
 			titles++;
 		}
@@ -187,7 +202,7 @@ export const prepareSheet = ( book, name, header ) => {
 		const last = Math.min( s.r === headerRow ? s.r : e.r, bottomShown );
 		const end = Math.min( e.c, rightShown );
 		const area = ( ( last - s.r + 1 ) * ( end - s.c + 1 ) ) - 1;
-		if ( area < 1 || area > budget ) {
+		if ( ! ( area >= 1 && area <= budget ) ) {
 			continue;
 		}
 		budget -= area;
@@ -240,7 +255,7 @@ export const prepareSheet = ( book, name, header ) => {
 		header: header ? cols.map( ( c ) => cell( headerRow, c ) ) : null,
 		letters: header ? null : cols.map( ( c ) => utils.encode_col( c ) ),
 		body: rows.slice( bodyStart ).map( ( r ) => ( { n: r + 1, cells: cols.map( ( c ) => cell( r, c ) ) } ) ),
-		cutRows: allRows > lastShown ? { shown: lastShown, total: allRows } : null,
-		cutCols: allCols > right + 1 && right + 1 >= MAX_COLS ? { shown: MAX_COLS, total: allCols } : null,
+		cutRows: allRows > lastShown ? { shown: lastShown - firstRow, total: allRows - firstRow } : null,
+		cutCols: allCols > right + 1 && right + 1 - firstCol >= MAX_COLS ? { shown: MAX_COLS, total: allCols - firstCol } : null,
 	};
 };

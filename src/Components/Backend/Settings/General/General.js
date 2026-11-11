@@ -1,11 +1,14 @@
 import { __ } from '@wordpress/i18n';
-import { RangeControl, SelectControl } from '@wordpress/components';
+import { RangeControl, SelectControl, TextControl } from '@wordpress/components';
 import { HelpCards, Panel, ToggleRow } from '../../../../vendor/softicon-tools/components/Panels';
 import { helpCards } from '../../../../utils/options';
 import { heightOf } from '../../../../utils/functions';
+import { parseRange } from '../../../../viewer/range';
 
 const General = ( { attributes, setAttributes, file, sheets = [] } ) => {
-	const { showDownload, showFullscreen, showZoom, maxHeight, headerRow, firstSheet } = attributes;
+	const { showDownload, showFullscreen, showZoom, maxHeight, headerRow, firstSheet, cellRange } = attributes;
+	// a range the viewer cannot read is left out, so the whole sheet shows
+	const badRange = !! cellRange?.trim() && ! parseRange( cellRange );
 	// zoom is for pages (PDF, Word); a table is read at its own size
 	const zoomable = file && 'sheet' !== file.viewer;
 	const set = ( key ) => ( val ) => setAttributes( { [ key ]: val } );
@@ -68,6 +71,19 @@ const General = ( { attributes, setAttributes, file, sheets = [] } ) => {
 				__nextHasNoMarginBottom
 				__next40pxDefaultSize
 			/> }
+
+			<TextControl
+				label={ __( 'Cells to show', 'softicon-document-viewer' ) }
+				value={ cellRange }
+				placeholder="A1:F20"
+				help={ badRange
+					? __( 'Write the cells the way Excel does: A1:F20, whole columns A:F or whole rows 5:40.', 'softicon-document-viewer' )
+					: __( 'Only these cells of the first sheet, without sheet tabs. Empty: the whole sheet. Also whole columns (A:F) or rows (5:40).', 'softicon-document-viewer' ) }
+				className={ 'aldvRange' + ( badRange ? ' aldvBadRange' : '' ) }
+				onChange={ set( 'cellRange' ) }
+				__nextHasNoMarginBottom
+				__next40pxDefaultSize
+			/>
 		</Panel> }
 	</>;
 };

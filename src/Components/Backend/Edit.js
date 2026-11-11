@@ -72,8 +72,14 @@ const Edit = ( { attributes, setAttributes } ) => {
 	} ), [ fileId ] );
 	const file = fileInfo( { ...attributes, fileUrl: mediaUrl || fileUrl } );
 	const stage = useRef();
+	// Cells to show reaches the preview when the typing stops, not with every letter (each one reopens the file)
+	const [ cellRange, setCellRange ] = useState( attributes.cellRange );
+	useEffect( () => {
+		const timer = setTimeout( () => setCellRange( attributes.cellRange ), 600 );
+		return () => clearTimeout( timer );
+	}, [ attributes.cellRange ] );
 	// Download is in the file card and Fullscreen is not shown in the editor: turning them on or off does not reopen the file
-	const preview = file && ! isPreview ? { ...toConfig( file, attributes ), download: true, fullscreen: true } : null;
+	const preview = file && ! isPreview ? { ...toConfig( file, { ...attributes, cellRange } ), download: true, fullscreen: true } : null;
 	const { failed, sheets, open } = usePreview( stage, preview ? JSON.stringify( preview ) : '' );
 
 	const pick = ( patch ) => {

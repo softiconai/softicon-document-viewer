@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: SoftIcon Document Viewer – Embed PDF, Word & Excel Files 1.0.3\n"
+"Project-Id-Version: SoftIcon Document Viewer – Embed PDF, Word & Excel Files 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/softicon-document-viewer\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-11T02:39:39+00:00\n"
+"POT-Creation-Date: 2026-11-11T03:12:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: softicon-document-viewer\n"
@@ -178,6 +178,18 @@ msgid "The first sheet"
 msgstr ""
 
 #: build/index.js:2
+msgid "Cells to show"
+msgstr ""
+
+#: build/index.js:2
+msgid "Write the cells the way Excel does: A1:F20, whole columns A:F or whole rows 5:40."
+msgstr ""
+
+#: build/index.js:2
+msgid "Only these cells of the first sheet, without sheet tabs. Empty: the whole sheet. Also whole columns (A:F) or rows (5:40)."
+msgstr ""
+
+#: build/index.js:2
 msgid "Colors"
 msgstr ""
 
@@ -336,6 +348,11 @@ msgstr ""
 #: build/index.js:6
 #: build/view.js:5
 msgid "This file could not be shown here."
+msgstr ""
+
+#: build/index.js:6
+#: build/view.js:5
+msgid "These cells are empty."
 msgstr ""
 
 #: build/index.js:6
