@@ -24,6 +24,12 @@ export const toolbarText = () => ( {
 	page: pageLabel,
 } );
 
+// the lightbox's buttons; open is also the editor's placeholder for Button text
+export const lightboxText = () => ( {
+	open: __( 'View', 'softicon-document-viewer' ),
+	close: __( 'Close', 'softicon-document-viewer' ),
+} );
+
 // spreadsheets
 export const sheetsLabel = () => __( 'Sheets', 'softicon-document-viewer' );
 export const emptySheetText = () => __( 'This sheet is empty.', 'softicon-document-viewer' );

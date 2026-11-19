@@ -20,8 +20,9 @@
 	}
 }
 
-// the Cells to show field
-.aldvRange {
+// the Cells to show and Button text fields
+.aldvRange,
+.aldvField {
 	margin-top: 16px;
 }
 
@@ -40,7 +41,8 @@
 // the block in the editor
 .wp-block-softicon-document-viewer {
 
-	.aldv_download {
+	.aldv_download,
+	.aldv_view {
 		cursor: default;
 	}
 }

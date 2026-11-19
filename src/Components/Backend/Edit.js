@@ -9,9 +9,9 @@ import Settings from './Settings/Settings';
 import FileCard from './FileCard';
 import { blockIcon } from '../../utils/icons';
 import { accept, mimeTypes } from '../../utils/options';
-import { cssVars, extOf, fileInfo, fromMedia, fromUrl, heightOf, toConfig } from '../../utils/functions';
+import { buttonTextOf, cssVars, extOf, fileInfo, fromMedia, fromUrl, heightOf, toConfig } from '../../utils/functions';
 import { viewers } from '../../viewer/viewers';
-import { errorText, reasonOf } from '../../viewer/messages';
+import { errorText, lightboxText, reasonOf } from '../../viewer/messages';
 
 // the live preview: the same viewer the page uses, opened in the block's .aldv_stage; it opens again when
 // the file or a setting the viewer reads changes. Gives the reason the file could not be shown ('' while it can)
@@ -60,7 +60,7 @@ const usePreview = ( stage, configKey ) => {
 };
 
 const Edit = ( { attributes, setAttributes } ) => {
-	const { fileId, fileUrl, showDownload } = attributes;
+	const { fileId, fileUrl, showDownload, lightbox, buttonText } = attributes;
 	const [ error, setError ] = useState( '' );
 	// a block installed from the inserter's search gets these only in the top window
 	const assetsRef = useIframeAssets( [ 'softicon-document-viewer-style-css', 'softicon-document-viewer-editor-style-css' ] );
@@ -79,7 +79,9 @@ const Edit = ( { attributes, setAttributes } ) => {
 		return () => clearTimeout( timer );
 	}, [ attributes.cellRange ] );
 	// Download is in the file card and Fullscreen is not shown in the editor: turning them on or off does not reopen the file
-	const preview = file && ! isPreview ? { ...toConfig( file, { ...attributes, cellRange } ), download: true, fullscreen: true } : null;
+	// a lightbox is as big as the screen, so a Fixed height from before does not apply
+	const maxHeight = lightbox ? '' : attributes.maxHeight;
+	const preview = file && ! isPreview ? { ...toConfig( file, { ...attributes, cellRange, maxHeight } ), download: true, fullscreen: true } : null;
 	const { failed, sheets, open } = usePreview( stage, preview ? JSON.stringify( preview ) : '' );
 
 	const pick = ( patch ) => {
@@ -89,8 +91,8 @@ const Edit = ( { attributes, setAttributes } ) => {
 
 	const blockProps = useBlockProps( {
 		ref: assetsRef,
-		className: file ? 'aldv_viewer aldv_' + file.viewer + ( heightOf( attributes.maxHeight ) ? ' aldv_fixed' : '' ) + ( open ? ' aldv_open aldv_ready' : '' ) : undefined,
-		style: file ? cssVars( attributes ) : undefined,
+		className: file ? 'aldv_viewer aldv_' + file.viewer + ( heightOf( maxHeight ) ? ' aldv_fixed' : '' ) + ( open ? ' aldv_open aldv_ready' : '' ) : undefined,
+		style: file ? cssVars( { ...attributes, maxHeight } ) : undefined,
 	} );
 
 	const errorNotice = error && <Notice status="error" onRemove={ () => setError( '' ) }>{ error }</Notice>;
@@ -133,7 +135,7 @@ const Edit = ( { attributes, setAttributes } ) => {
 			{ errorNotice }
 			{ file
 				? <>
-					<FileCard file={ file } download={ showDownload } />
+					<FileCard file={ file } download={ showDownload } view={ lightbox ? buttonTextOf( buttonText ) || lightboxText().open : '' } />
 					{ failed && <Notice status="warning" isDismissible={ false }>{ errorText( failed, true ) }</Notice> }
 					{ /* the viewer fills this, React leaves its content alone */ }
 					<div className="aldv_stage" ref={ stage } />

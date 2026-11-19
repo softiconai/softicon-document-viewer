@@ -172,6 +172,10 @@ class Block {
 				$config['range'] = $range;
 			}
 		}
+		if ( ! empty( $attributes['lightbox'] ) ) {
+			$config['lightbox'] = true;
+			$config['button']   = mb_substr( wp_specialchars_decode( wp_strip_all_tags( (string) ( $attributes['buttonText'] ?? '' ) ), ENT_QUOTES ), 0, 60 );
+		}
 		return apply_filters( 'aldv_config', $config, $attributes );
 	}
 }

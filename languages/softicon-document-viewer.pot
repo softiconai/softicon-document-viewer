@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: SoftIcon Document Viewer – Embed PDF, Word & Excel Files 1.1.0\n"
+"Project-Id-Version: SoftIcon Document Viewer – Embed PDF, Word & Excel Files 1.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/softicon-document-viewer\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-11T03:12:04+00:00\n"
+"POT-Creation-Date: 2026-11-19T10:25:50+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: softicon-document-viewer\n"
@@ -115,6 +115,34 @@ msgstr ""
 
 #: build/index.js:2
 msgid "Lets visitors save the file."
+msgstr ""
+
+#: build/index.js:2
+msgid "Lightbox"
+msgstr ""
+
+#: build/index.js:2
+msgid "New"
+msgstr ""
+
+#: build/index.js:2
+msgid "Open in a lightbox"
+msgstr ""
+
+#: build/index.js:2
+msgid "The page shows only the file card with a button. The document opens over the page when a visitor clicks it."
+msgstr ""
+
+#: build/index.js:2
+msgid "Button text"
+msgstr ""
+
+#: build/index.js:2
+msgid "The preview below is what opens in the lightbox."
+msgstr ""
+
+#: build/index.js:2
+msgid "Good for a page with many files, or a long document a visitor may not need."
 msgstr ""
 
 #: build/index.js:2
@@ -353,6 +381,16 @@ msgstr ""
 #: build/index.js:6
 #: build/view.js:5
 msgid "These cells are empty."
+msgstr ""
+
+#: build/index.js:6
+#: build/view.js:5
+msgid "View"
+msgstr ""
+
+#: build/index.js:6
+#: build/view.js:5
+msgid "Close"
 msgstr ""
 
 #: build/index.js:6

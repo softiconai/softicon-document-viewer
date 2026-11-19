@@ -64,6 +64,9 @@ export const toConfig = ( file, { showDownload, showFullscreen, showZoom, maxHei
 	...( 'sheet' === file.viewer && parseRange( cellRange ) ? { range: cellRange } : {} ),
 } );
 
+// the lightbox button's text, cleaned like Block::config() does; '' means the default (View)
+export const buttonTextOf = ( text ) => decodeEntities( ( text || '' ).replace( /<[^>]*>/g, '' ) ).slice( 0, 60 ).trim();
+
 // hex, rgb(a), hsl(a) or a preset var(), checked like Block::color(); anything else (a url() would load
 // something from another site in the editor) is dropped
 export const colorOf = ( value ) => {

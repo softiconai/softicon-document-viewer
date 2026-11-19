@@ -92,7 +92,8 @@
 	opacity: 0.7;
 }
 
-.aldv_download {
+.aldv_download,
+.aldv_view {
 	flex: none;
 	text-decoration: none;
 }
@@ -359,9 +360,15 @@
 		flex-wrap: nowrap;
 		justify-content: space-between;
 
-		.aldv_download {
+		.aldv_download,
+		.aldv_view {
 			padding: 0.55em 1em;
 			font-size: 0.875em;
+		}
+
+		// a lightbox's button with a long text: Download moves below it
+		&:has(.aldv_view) {
+			flex-wrap: wrap;
 		}
 
 		// phones zoom with two fingers; the buttons would not fit next to Download
@@ -453,9 +460,11 @@
 }
 
 // fullscreen: the Fullscreen API, or the block filling the window
-// where there is none (iPhone)
+// where there is none (iPhone); a lightbox's viewer fills its
+// dialog the same way
 .aldv_viewer:fullscreen,
-.aldv_viewer.aldv_full {
+.aldv_viewer.aldv_full,
+.aldv_box .aldv_viewer {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -504,5 +513,61 @@
 // the page behind the block-filling fullscreen does not scroll
 .aldv_locked,
 .aldv_locked body {
+	overflow: hidden;
+}
+
+// Lightbox: the View button in the file card opens the viewer
+// in a <dialog> over the page (src/viewer/lightbox.js)
+.aldv_box {
+	box-sizing: border-box;
+	width: min(1200px, 100vw - 32px);
+	max-width: none;
+	height: calc(100vh - 32px);
+	height: calc(100dvh - 32px);
+	max-height: none;
+	margin: auto;
+	padding: 0;
+	overflow: hidden;
+	border: 0;
+	border-radius: 12px;
+	background: transparent;
+	color: inherit;
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+
+	&::backdrop {
+		background: rgba(0, 0, 0, 0.75);
+	}
+
+	@media (max-width: 600px) {
+		width: 100%;
+		height: 100%;
+		border-radius: 0;
+	}
+}
+
+// the card on top, the document in the rest; a grid row, unlike a
+// flex item, also shrinks to the dialog's max-height
+.aldv_box > .aldv_viewer {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+}
+
+// a table shorter than the screen: the lightbox is only as tall
+// as the table (not on phones, where it fills the screen)
+@media (min-width: 601px) {
+
+	.aldv_box:has(> .aldv_sheet) {
+		height: fit-content;
+		max-height: calc(100vh - 32px);
+		max-height: calc(100dvh - 32px);
+
+		> .aldv_viewer {
+			max-height: inherit;
+		}
+	}
+}
+
+// the page behind an open lightbox does not scroll
+html:has(.aldv_box[open]) {
 	overflow: hidden;
 }
