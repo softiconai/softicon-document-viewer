@@ -49,7 +49,7 @@ export const heightOf = ( value ) => {
 	return /^\d{1,4}(\.\d{1,2})?(px|vh|em|rem)$/.test( height ) && parseFloat( height ) > 0 ? height : '';
 };
 
-export const toConfig = ( file, { showDownload, showFullscreen, showZoom, maxHeight, headerRow, firstSheet, cellRange } ) => ( {
+export const toConfig = ( file, { showDownload, showFullscreen, showZoom, showSearch, maxHeight, headerRow, firstSheet, cellRange } ) => ( {
 	viewer: file.viewer,
 	ext: file.ext,
 	url: file.url,
@@ -57,6 +57,7 @@ export const toConfig = ( file, { showDownload, showFullscreen, showZoom, maxHei
 	download: showDownload,
 	fullscreen: showFullscreen,
 	zoom: showZoom,
+	search: showSearch,
 	fixed: '' !== heightOf( maxHeight ),
 	// a saved & comes back as &amp; for users without unfiltered_html
 	...( 'sheet' === file.viewer ? { header: headerRow, sheet: decodeEntities( firstSheet || '' ) } : {} ),

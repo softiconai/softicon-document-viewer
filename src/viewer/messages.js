@@ -24,6 +24,23 @@ export const toolbarText = () => ( {
 	page: pageLabel,
 } );
 
+// the search bar (PDF and Word)
+export const findText = () => ( {
+	search: __( 'Search', 'softicon-document-viewer' ),
+	label: __( 'Search in the document', 'softicon-document-viewer' ),
+	prev: __( 'Previous result', 'softicon-document-viewer' ),
+	next: __( 'Next result', 'softicon-document-viewer' ),
+	close: __( 'Close search', 'softicon-document-viewer' ),
+	searching: __( 'Searching…', 'softicon-document-viewer' ),
+	none: __( 'No results', 'softicon-document-viewer' ),
+	count: ( n, total ) => sprintf(
+		/* translators: 1: the result shown, 2: all results, like 1,000+ */
+		__( '%1$s of %2$s', 'softicon-document-viewer' ),
+		n,
+		total
+	),
+} );
+
 // the lightbox's buttons; open is also the editor's placeholder for Button text
 export const lightboxText = () => ( {
 	open: __( 'View', 'softicon-document-viewer' ),

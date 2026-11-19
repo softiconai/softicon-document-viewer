@@ -4,6 +4,7 @@ import { loadFile } from './loadFile';
 import { zipTooBig } from './zipCheck';
 import Toolbar from './toolbar';
 import { safeHref } from './safeUrl';
+import { LIMIT, findAll, indexParts, segments } from './find';
 
 // how the pages sit inside the shadow root; the theme's CSS cannot reach in, the file's selectors cannot reach out
 // (its layout is held in by contain: paint on .aldv_docx .aldv_stage)
@@ -17,7 +18,12 @@ img { max-width: none; }
 .aldv_reflow img { max-width: 100%; height: auto; }
 .aldv_reflow > section.docx > header { margin: 0 0 16px !important; }
 .aldv_reflow > section.docx > footer { margin: 16px 0 0 !important; }
+mark.aldv_mark { padding: 0; background: rgba(250, 204, 21, 0.55); color: inherit; }
+mark.aldv_mark_now { background: rgba(249, 115, 22, 0.75); outline: 2px solid #ea580c; }
 `;
+
+// a search result does not run from one of these into the next
+const BLOCKS = 'p, li, td, th, h1, h2, h3, h4, h5, h6, header, footer, section, article, div, tr, table, caption';
 
 // below this a zoomed page is too small to read (a Letter page on a phone is about 0.36), the text flows instead
 const MIN_ZOOM = 0.6;
@@ -200,6 +206,7 @@ export default class Docx {
 				this.userZoom = level;
 				this.fit();
 			},
+			search: { find: ( query ) => this.find( query ), clear: () => this.clearMarks() },
 		} );
 
 		// links inside the document (table of contents, bookmarks) scroll to their target in the shadow root
@@ -251,6 +258,49 @@ export default class Docx {
 			}
 		}
 		this.pages.style.zoom = 1 === zoom ? '' : String( zoom );
+	}
+
+	// wraps every result in <mark>, a result over two runs of text in two; the text is read again each time,
+	// after the marks of the last search are gone
+	find( query ) {
+		this.clearMarks();
+		const nodes = [];
+		const gaps = [];
+		let block;
+		const walker = this.doc.createTreeWalker( this.pages, 4 );
+		for ( let node = walker.nextNode(); node; node = walker.nextNode() ) {
+			const own = node.parentElement?.closest( BLOCKS );
+			if ( nodes.length && own !== block ) {
+				gaps[ nodes.length - 1 ] = true;
+			}
+			block = own;
+			nodes.push( node );
+		}
+		const { text, map } = indexParts( nodes.map( ( node ) => node.data ), gaps );
+		const results = findAll( text, query, LIMIT ).map( ( start ) => segments( map, start, start + query.length ) );
+		this.marks = results.map( () => [] );
+		// from the end: splitting a text node keeps the start in the node, so the earlier offsets stay right
+		for ( let r = results.length - 1; r >= 0; r-- ) {
+			for ( let s = results[ r ].length - 1; s >= 0; s-- ) {
+				const { part, from, to } = results[ r ][ s ];
+				const mark = this.doc.createElement( 'mark' );
+				mark.className = 'aldv_mark';
+				const range = this.doc.createRange();
+				range.setStart( nodes[ part ], from );
+				range.setEnd( nodes[ part ], to );
+				range.surroundContents( mark );
+				this.marks[ r ].unshift( mark );
+			}
+		}
+		return this.marks;
+	}
+
+	clearMarks() {
+		if ( this.marks?.length ) {
+			this.marks.flat().forEach( ( mark ) => mark.replaceWith( ...mark.childNodes ) );
+			this.pages.normalize();
+		}
+		this.marks = [];
 	}
 
 	// called by the toolbar; the pages fit the new size

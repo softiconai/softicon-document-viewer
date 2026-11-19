@@ -1,6 +1,5 @@
 import { lightboxText } from './messages';
-
-const CLOSE = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+import { ICONS } from './icons';
 
 // Lightbox: the page keeps only the file card, with a button that opens the viewer in a <dialog> over the page.
 // The dialog sits inside the block (the top layer shows it above a clipped or transformed parent, and the block's
@@ -22,7 +21,7 @@ export default function lightbox( el, config, load, mount ) {
 	close.className = 'aldv_btn aldv_close';
 	close.setAttribute( 'aria-label', text.close );
 	close.title = text.close;
-	close.innerHTML = CLOSE;
+	close.innerHTML = ICONS.close;
 	close.autofocus = true;
 	head.querySelector( '.aldv_actions' ).append( close );
 

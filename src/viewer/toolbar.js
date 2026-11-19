@@ -1,21 +1,14 @@
 import { toolbarText } from './messages';
-
-// simple line icons, drawn for this plugin
-const icon = ( path ) => `<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="${ path }" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-const ICONS = {
-	zoomOut: icon( 'M5 12h14' ),
-	zoomIn: icon( 'M12 5v14M5 12h14' ),
-	fullscreen: icon( 'M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5' ),
-	exitFullscreen: icon( 'M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5' ),
-};
+import { ICONS } from './icons';
+import FindBar from './find';
 
 export const ZOOMS = [ 0.5, 0.75, 1, 1.25, 1.5, 2, 3 ];
 
-// The buttons in the file card's .aldv_tools: zoom, a page counter and fullscreen.
-// A viewer passes what it supports: { zoom( level ), pages: count }; the toolbar calls back and the viewer
-// reports the page it shows with toolbar.page( n ).
+// The buttons in the file card's .aldv_tools: zoom, a page counter, search and fullscreen.
+// A viewer passes what it supports: { zoom( level ), pages: count, search: { find, clear } (see find.js) };
+// the toolbar calls back and the viewer reports the page it shows with toolbar.page( n ).
 export default class Toolbar {
-	constructor( viewer, { zoom = null, pages = 0 } = {} ) {
+	constructor( viewer, { zoom = null, pages = 0, search = null } = {} ) {
 		this.viewer = viewer;
 		this.root = viewer.root;
 		this.doc = viewer.doc;
@@ -44,6 +37,10 @@ export default class Toolbar {
 			this.counter.className = 'aldv_pages_count';
 			this.box.append( this.counter );
 			this.page( 1 );
+		}
+		if ( search && false !== config.search ) {
+			this.finder = new FindBar( this, search );
+			this.box.append( this.finder.button );
 		}
 		// not in the editor: its canvas is an iframe without fullscreen rights
 		if ( false !== config.fullscreen && ! viewer.editor ) {
@@ -155,6 +152,7 @@ export default class Toolbar {
 			this.cssFullscreen( false );
 		}
 		this.offs.forEach( ( off ) => off() );
+		this.finder?.destroy();
 		this.box?.replaceChildren();
 		this.root.classList.remove( 'aldv_is_full' );
 	}

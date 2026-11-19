@@ -152,15 +152,16 @@ class Block {
 	// settings read by view.js
 	public static function config( $attributes, $file ) {
 		$config = array(
-			'viewer'     => $file['viewer'],
-			'ext'        => $file['ext'],
-			'url'        => $file['url'],
-			'name'       => $file['name'],
-			'download'   => ! isset( $attributes['showDownload'] ) || (bool) $attributes['showDownload'],
-			'fullscreen' => ! isset( $attributes['showFullscreen'] ) || (bool) $attributes['showFullscreen'],
-			'zoom'       => ! isset( $attributes['showZoom'] ) || (bool) $attributes['showZoom'],
-			'fixed'      => '' !== self::height( $attributes ),
+			'viewer' => $file['viewer'],
+			'ext'    => $file['ext'],
+			'url'    => $file['url'],
+			'name'   => $file['name'],
+			'fixed'  => '' !== self::height( $attributes ),
 		);
+		foreach ( array( 'download', 'fullscreen', 'zoom', 'search' ) as $key ) {
+			$attr           = 'show' . ucfirst( $key );
+			$config[ $key ] = ! isset( $attributes[ $attr ] ) || (bool) $attributes[ $attr ];
+		}
 		if ( 'sheet' === $file['viewer'] ) {
 			$config['header'] = ! isset( $attributes['headerRow'] ) || (bool) $attributes['headerRow'];
 			// only compared with sheet names, never printed; kses saves & as &amp; without unfiltered_html

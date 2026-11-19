@@ -7,10 +7,10 @@ import { parseRange } from '../../../../viewer/range';
 import { lightboxText } from '../../../../viewer/messages';
 
 const General = ( { attributes, setAttributes, file, sheets = [] } ) => {
-	const { showDownload, showFullscreen, showZoom, maxHeight, headerRow, firstSheet, cellRange, lightbox, buttonText } = attributes;
+	const { showDownload, showFullscreen, showZoom, showSearch, maxHeight, headerRow, firstSheet, cellRange, lightbox, buttonText } = attributes;
 	// a range the viewer cannot read is left out, so the whole sheet shows
 	const badRange = !! cellRange?.trim() && ! parseRange( cellRange );
-	// zoom is for pages (PDF, Word); a table is read at its own size
+	// zoom and search are for pages (PDF, Word); a table is read at its own size
 	const zoomable = file && 'sheet' !== file.viewer;
 	const set = ( key ) => ( val ) => setAttributes( { [ key ]: val } );
 
@@ -30,7 +30,7 @@ const General = ( { attributes, setAttributes, file, sheets = [] } ) => {
 			<ToggleRow label={ __( 'Download button', 'softicon-document-viewer' ) } tip={ __( 'Lets visitors save the file.', 'softicon-document-viewer' ) } checked={ showDownload } onChange={ set( 'showDownload' ) } />
 		</Panel>
 
-		<Panel id="lightbox" title={ __( 'Lightbox', 'softicon-document-viewer' ) } badge={ __( 'New', 'softicon-document-viewer' ) }>
+		<Panel id="lightbox" title={ __( 'Lightbox', 'softicon-document-viewer' ) }>
 			<ToggleRow label={ __( 'Open in a lightbox', 'softicon-document-viewer' ) } tip={ __( 'The page shows only the file card with a button. The document opens over the page when a visitor clicks it.', 'softicon-document-viewer' ) } checked={ lightbox } onChange={ set( 'lightbox' ) } />
 			{ lightbox && <TextControl
 				label={ __( 'Button text', 'softicon-document-viewer' ) }
@@ -48,9 +48,10 @@ const General = ( { attributes, setAttributes, file, sheets = [] } ) => {
 		</Panel>
 
 		{ /* a lightbox has no Fullscreen button: it already fills the screen */ }
-		{ ( ! lightbox || zoomable ) && <Panel id="toolbar" title={ __( 'Toolbar', 'softicon-document-viewer' ) }>
+		{ ( ! lightbox || zoomable ) && <Panel id="toolbar" title={ __( 'Toolbar', 'softicon-document-viewer' ) } badge={ zoomable ? __( 'New', 'softicon-document-viewer' ) : undefined }>
 			{ ! lightbox && <ToggleRow label={ __( 'Fullscreen button', 'softicon-document-viewer' ) } tip={ __( 'Opens the document over the whole screen. Not shown in the editor.', 'softicon-document-viewer' ) } checked={ showFullscreen } onChange={ set( 'showFullscreen' ) } /> }
 			{ zoomable && <ToggleRow label={ __( 'Zoom buttons', 'softicon-document-viewer' ) } tip={ __( 'Let visitors make the pages bigger or smaller.', 'softicon-document-viewer' ) } checked={ showZoom } onChange={ set( 'showZoom' ) } /> }
+			{ zoomable && <ToggleRow label={ __( 'Search button', 'softicon-document-viewer' ) } tip={ __( 'Lets visitors find words in the document and jump from one result to the next. Ctrl+F (Cmd+F on a Mac) inside the viewer opens it too.', 'softicon-document-viewer' ) } checked={ showSearch } onChange={ set( 'showSearch' ) } /> }
 		</Panel> }
 
 		{ /* a lightbox is as big as the screen */ }

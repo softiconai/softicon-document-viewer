@@ -2,6 +2,7 @@
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { pageLabel } from './messages';
 import Toolbar from './toolbar';
+import { LIMIT, findAll, indexParts, segments } from './find';
 
 // pages are drawn when they come this close to the screen, and freed again when they move further away
 const NEAR = '150% 0px';
@@ -51,6 +52,20 @@ const reasonOf = ( error ) => {
 	}
 	return 'ResponseException' === error?.name && error.missing ? 'missing' : '';
 };
+
+// a result's boxes on one line become one box (a word can be stored in pieces, like "Bright", "fi", "eld")
+const joinLines = ( boxes ) => boxes.reduce( ( lines, box ) => {
+	const line = lines.find( ( l ) => Math.min( l.bottom, box.bottom ) - Math.max( l.top, box.top ) > ( box.bottom - box.top ) / 2 );
+	if ( line ) {
+		line.left = Math.min( line.left, box.left );
+		line.right = Math.max( line.right, box.right );
+		line.top = Math.min( line.top, box.top );
+		line.bottom = Math.max( line.bottom, box.bottom );
+	} else {
+		lines.push( { ...box } );
+	}
+	return lines;
+}, [] );
 
 // PDF pages one below the other; only the pages near the screen are drawn
 export default class Pdf {
@@ -145,6 +160,7 @@ export default class Pdf {
 		this.toolbar = new Toolbar( this, {
 			zoom: ( level ) => list.style.setProperty( '--aldv-zoom', level ),
 			pages: count,
+			search: { find: ( query ) => this.find( query ), clear: () => this.clearMarks( true ) },
 		} );
 		this.observe();
 
@@ -268,10 +284,117 @@ export default class Pdf {
 		}
 
 		if ( ! this.destroyed && this.near.has( index ) && this.drawn[ index ] === width ) {
-			this.pages[ index ].replaceChildren( canvas );
+			// the search marks stay on top of the new drawing
+			this.pages[ index ].querySelector( 'canvas' )?.remove();
+			this.pages[ index ].prepend( canvas );
 		} else {
 			canvas.width = canvas.height = 0;
 		}
+	}
+
+	// the text of every page, read once when the visitor first searches: [ { items, viewport, text, map } ]
+	readText() {
+		if ( ! this.textRead ) {
+			this.textRead = ( async () => {
+				const texts = [];
+				for ( let i = 0; i < this.pages.length && ! this.destroyed; i++ ) {
+					const page = await this.pdf.getPage( i + 1 );
+					const content = await page.getTextContent();
+					const items = content.items.filter( ( item ) => 'string' === typeof item.str );
+					const viewport = page.getViewport( { scale: 1 } );
+					// the marks are placed in this page's own size
+					this.pages[ i ].style.aspectRatio = viewport.width / viewport.height;
+					texts.push( { items, viewport, styles: content.styles, ...indexParts( items.map( ( item ) => item.str ), items.map( ( item ) => item.hasEOL ) ) } );
+				}
+				return texts;
+			} )();
+			// a page that could not be read: the next search tries again
+			this.textRead.catch( () => {
+				this.textRead = null;
+			} );
+		}
+		return this.textRead;
+	}
+
+	// marks every result over the pages; null when a newer search started meanwhile
+	async find( query ) {
+		const token = this.findToken = ( this.findToken || 0 ) + 1;
+		const texts = await this.readText();
+		if ( this.destroyed || token !== this.findToken ) {
+			return null;
+		}
+		this.clearMarks();
+		const marks = [];
+		texts.forEach( ( page, index ) => {
+			let layer;
+			findAll( page.text, query, LIMIT - marks.length ).forEach( ( start ) => {
+				if ( ! layer ) {
+					layer = this.doc.createElement( 'div' );
+					layer.className = 'aldv_marks';
+					this.pages[ index ].append( layer );
+				}
+				const boxes = segments( page.map, start, start + query.length ).map( ( part ) => this.box( page, part ) );
+				marks.push( joinLines( boxes ).map( ( box ) => this.mark( layer, page.viewport, box ) ) );
+			} );
+		} );
+		return marks;
+	}
+
+	// the box around part of a text item, in page units; turned text gets the box around its turned outline.
+	// Where the part starts and ends is measured in the PDF's font family (a near match of the real font:
+	// pdf.js moves the real font's letters to private code points, so it cannot be measured), then stretched
+	// to the item's real width.
+	box( { items, viewport, styles }, { part, from, to } ) {
+		const item = items[ part ];
+		const t = pdfjs.Util.transform( viewport.transform, item.transform );
+		const angle = Math.atan2( t[ 1 ], t[ 0 ] );
+		const cos = Math.cos( angle );
+		const sin = Math.sin( angle );
+		const size = Math.hypot( t[ 2 ], t[ 3 ] );
+		const measure = this.measurer( styles[ item.fontName ]?.fontFamily );
+		const whole = measure( item.str ) || 1;
+		const xs = [];
+		const ys = [];
+		[ from, to ].forEach( ( at ) => [ -0.25, 0.95 ].forEach( ( up ) => {
+			const along = ( item.width * measure( item.str.slice( 0, at ) ) ) / whole;
+			xs.push( t[ 4 ] + ( cos * along ) + ( sin * up * size ) );
+			ys.push( t[ 5 ] + ( sin * along ) - ( cos * up * size ) );
+		} ) );
+		return { left: Math.min( ...xs ), top: Math.min( ...ys ), right: Math.max( ...xs ), bottom: Math.max( ...ys ) };
+	}
+
+	// text width in a font family, from a canvas that is never shown
+	measurer( family ) {
+		this.ruler = this.ruler || this.doc.createElement( 'canvas' ).getContext( '2d' );
+		const ruler = this.ruler;
+		if ( ! ruler ) {
+			return ( text ) => text.length;
+		}
+		return ( text ) => {
+			// pdf.js gives a generic family (sans-serif, serif, monospace); anything else is not used
+			ruler.font = '100px ' + ( /^[\w -]+$/.test( family || '' ) ? family : 'sans-serif' );
+			return ruler.measureText( text ).width;
+		};
+	}
+
+	// a box in % of the page, so it follows zoom and resizing
+	mark( layer, viewport, { left, top, right, bottom } ) {
+		const mark = this.doc.createElement( 'span' );
+		mark.className = 'aldv_mark';
+		mark.style.left = ( ( left / viewport.width ) * 100 ) + '%';
+		mark.style.top = ( ( top / viewport.height ) * 100 ) + '%';
+		mark.style.width = ( ( ( right - left ) / viewport.width ) * 100 ) + '%';
+		mark.style.height = ( ( ( bottom - top ) / viewport.height ) * 100 ) + '%';
+		layer.append( mark );
+		return mark;
+	}
+
+	// cancel: a search still reading the text marks nothing when it is done
+	clearMarks( cancel = false ) {
+		if ( cancel ) {
+			this.findToken = ( this.findToken || 0 ) + 1;
+		}
+		this.list?.querySelectorAll( '.aldv_marks' ).forEach( ( layer ) => layer.remove() );
 	}
 
 	// gives a far away page's canvas memory back, the empty box keeps its size

@@ -175,6 +175,7 @@
 }
 
 .aldv_page {
+	position: relative;
 	width: 100%;
 	overflow: hidden;
 	background: #fff;
@@ -186,6 +187,70 @@
 		max-width: none;
 		height: 100%;
 	}
+}
+
+// search results over a PDF page, placed in % of the page
+.aldv_marks {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+.aldv_mark {
+	position: absolute;
+	border-radius: 2px;
+	background: rgba(250, 204, 21, 0.4);
+	mix-blend-mode: multiply;
+}
+
+.aldv_mark_now {
+	background: rgba(249, 115, 22, 0.5);
+	outline: 2px solid #ea580c;
+}
+
+// the search bar, a row of its own at the bottom of the file card
+.aldv_find {
+	display: flex;
+	flex: 1 1 100%;
+	align-items: center;
+	gap: 2px;
+	order: 9;
+	min-width: 0;
+}
+
+// width 0: the field's own width (about 20 letters) would push the
+// buttons out of a phone-wide card; it grows into the room instead
+.aldv_find_input {
+	flex: 1;
+	width: 0;
+	min-width: 0;
+	height: 36px;
+	margin: 0 6px 0 0;
+	padding: 0 10px;
+	border: 1px solid var(--aldv-border, rgba(127, 127, 127, 0.5));
+	border-radius: 6px;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	font-size: 0.875em;
+
+	// phones zoom the page into a field with smaller text
+	@media (max-width: 600px) {
+		font-size: 16px;
+	}
+
+	&:focus-visible {
+		outline: 2px solid currentcolor;
+		outline-offset: 1px;
+	}
+}
+
+.aldv_find_count {
+	padding: 0 6px;
+	font-size: 0.875em;
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+	opacity: 0.8;
 }
 
 // Excel and CSV: sheet tabs, then a table whose header row
@@ -389,6 +454,18 @@
 		position: sticky;
 		z-index: 3;
 		top: var(--wp-admin--admin-bar--height, 0);
+		background: var(--aldv-toolbar-bg, var(--aldv-bg, var(--wp--preset--color--base, #fff)));
+	}
+}
+
+// on a phone the card sticks only while the search bar is open,
+// so the next-result button stays in reach
+@media (max-width: 600px) {
+
+	.aldv_finding:not(.aldv_fixed) .aldv_file {
+		position: sticky;
+		z-index: 3;
+		top: 0;
 		background: var(--aldv-toolbar-bg, var(--aldv-bg, var(--wp--preset--color--base, #fff)));
 	}
 }
