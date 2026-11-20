@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { BlockControls, BlockIcon, MediaPlaceholder, MediaReplaceFlow, useBlockProps } from '@wordpress/block-editor';
 import { Notice } from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
+import { dispatch, useSelect } from '@wordpress/data';
 // copied from the shared softicon-tools folder by `npm run tools` (prebuild), edit it there
 import useIframeAssets from '../../vendor/softicon-tools/hooks/useIframeAssets';
 import Settings from './Settings/Settings';
@@ -12,6 +12,10 @@ import { accept, mimeTypes } from '../../utils/options';
 import { buttonTextOf, cssVars, extOf, fileInfo, fromMedia, fromUrl, heightOf, toConfig } from '../../utils/functions';
 import { viewers } from '../../viewer/viewers';
 import { errorText, lightboxText, reasonOf } from '../../viewer/messages';
+import guide from '../../utils/guide';
+
+// once, after the file is picked: the next step for the way picked on the dashboard (utils/guide.js)
+let guided = false;
 
 // the live preview: the same viewer the page uses, opened in the block's .aldv_stage; it opens again when
 // the file or a setting the viewer reads changes. Gives the reason the file could not be shown ('' while it can)
@@ -83,6 +87,16 @@ const Edit = ( { attributes, setAttributes } ) => {
 	const maxHeight = lightbox ? '' : attributes.maxHeight;
 	const preview = file && ! isPreview ? { ...toConfig( file, { ...attributes, cellRange, maxHeight } ), download: true, fullscreen: true } : null;
 	const { failed, sheets, open } = usePreview( stage, preview ? JSON.stringify( preview ) : '' );
+
+	useEffect( () => {
+		if ( ! guide || ! fileUrl || guided ) {
+			return;
+		}
+		guided = true;
+		dispatch( 'core/notices' ).createInfoNotice( 'shortcode' === guide
+			? __( 'Your document is ready. Give it a title and click Publish, then copy its shortcode from the Shortcode panel in the sidebar.', 'softicon-document-viewer' )
+			: __( 'Your document is ready. Choose the toolbar, size and colors in the sidebar, then click Publish.', 'softicon-document-viewer' ), { id: 'aldv-guide' } );
+	}, [ fileUrl ] );
 
 	const pick = ( patch ) => {
 		setError( '' );

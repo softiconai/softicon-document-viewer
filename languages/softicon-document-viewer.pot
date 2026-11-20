@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: SoftIcon Document Viewer – Embed PDF, Word & Excel Files 1.3.1\n"
+"Project-Id-Version: SoftIcon Document Viewer – Embed PDF, Word & Excel Files 1.4.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/softicon-document-viewer\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-20T01:54:13+00:00\n"
+"POT-Creation-Date: 2026-11-20T03:00:10+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: softicon-document-viewer\n"
@@ -60,6 +60,647 @@ msgstr ""
 msgid "CSV file"
 msgstr ""
 
+#: includes/class-dashboard.php:29
+msgid "Document Viewer in 30 seconds"
+msgstr ""
+
+#: includes/class-dashboard.php:30
+msgid "Every setting, explained"
+msgstr ""
+
+#: includes/class-dashboard.php:31
+msgid "Show only part of an Excel sheet"
+msgstr ""
+
+#: includes/class-dashboard.php:32
+msgid "Open files in a lightbox"
+msgstr ""
+
+#: includes/class-dashboard.php:33
+msgid "Search inside PDF and Word files"
+msgstr ""
+
+#: includes/class-dashboard.php:44
+#: includes/class-dashboard.php:53
+#: includes/class-dashboard.php:342
+msgid "SoftIcon Document Viewer"
+msgstr ""
+
+#: includes/class-dashboard.php:45
+#: build/dashboard.js:1
+#: build/index.js:2
+msgid "Document Viewer"
+msgstr ""
+
+#: includes/class-dashboard.php:53
+#: includes/class-dashboard.php:65
+msgid "Dashboard"
+msgstr ""
+
+#: includes/class-dashboard.php:71
+#: includes/class-dashboard.php:103
+#: build/index.js:2
+msgid "Help"
+msgstr ""
+
+#: includes/class-dashboard.php:101
+msgid "Welcome"
+msgstr ""
+
+#: includes/class-dashboard.php:102
+#: includes/class-shortcode.php:45
+#: includes/class-shortcode.php:47
+msgid "Documents"
+msgstr ""
+
+#: includes/class-dashboard.php:166
+#: includes/class-dashboard.php:258
+msgid "(no title)"
+msgstr ""
+
+#: includes/class-dashboard.php:346
+msgid "The Document Viewer dashboard needs JavaScript."
+msgstr ""
+
+#: includes/class-shortcode.php:34
+msgid "Sorry, you are not allowed to do that."
+msgstr ""
+
+#: includes/class-shortcode.php:46
+msgid "Document"
+msgstr ""
+
+#: includes/class-shortcode.php:48
+#: includes/class-shortcode.php:49
+#: build/dashboard.js:1
+#: build/dashboard.js:3
+#: build/dashboard.js:6
+msgid "Add a document"
+msgstr ""
+
+#: includes/class-shortcode.php:50
+msgid "Edit document"
+msgstr ""
+
+#: includes/class-shortcode.php:51
+msgid "All Documents"
+msgstr ""
+
+#: includes/class-shortcode.php:52
+msgid "No documents yet."
+msgstr ""
+
+#: includes/class-shortcode.php:53
+msgid "No documents in the trash."
+msgstr ""
+
+#: includes/class-shortcode.php:54
+msgid "Search documents"
+msgstr ""
+
+#: includes/class-shortcode.php:109
+#: includes/class-shortcode.php:114
+#: build/dashboard.js:3
+#: build/dashboard.js:6
+#: build/index.js:2
+msgid "Shortcode"
+msgstr ""
+
+#: includes/class-shortcode.php:114
+msgid "Click to copy"
+msgstr ""
+
+#: includes/class-shortcode.php:124
+#: build/dashboard.js:1
+#: build/dashboard.js:7
+#: build/index.js:2
+msgid "Copied"
+msgstr ""
+
+#: build/dashboard.js:1
+msgid "Document Viewer dashboard"
+msgstr ""
+
+#: build/dashboard.js:1
+msgid "Our plugins"
+msgstr ""
+
+#: build/dashboard.js:1
+#: build/dashboard.js:6
+msgid "Video"
+msgstr ""
+
+#: build/dashboard.js:1
+#: build/index.js:7
+#: build/view.js:6
+msgid "Close"
+msgstr ""
+
+#: build/dashboard.js:1
+#: build/dashboard.js:7
+msgid "Enjoying Document Viewer?"
+msgstr ""
+
+#: build/dashboard.js:1
+msgid "A quick review on WordPress.org helps other people find it, and it means a lot to our small team."
+msgstr ""
+
+#: build/dashboard.js:1
+#: build/dashboard.js:7
+msgid "Leave a review"
+msgstr ""
+
+#: build/dashboard.js:1
+msgid "Maybe later"
+msgstr ""
+
+#: build/dashboard.js:1
+msgid "I already did"
+msgstr ""
+
+#: build/dashboard.js:1
+#: build/dashboard.js:7
+#: build/index.js:2
+msgid "Copy"
+msgstr ""
+
+#: build/dashboard.js:1
+#: build/dashboard.js:4
+msgid "Your documents"
+msgstr ""
+
+#. translators: %s: document title
+#. translators: %s: the document's title
+#: build/dashboard.js:2
+#: build/dashboard.js:4
+#, js-format
+msgid "Copy the shortcode of %s"
+msgstr ""
+
+#. translators: %d: number of documents
+#: build/dashboard.js:3
+#, js-format
+msgid "See all %d document"
+msgid_plural "See all %d documents"
+msgstr[0] ""
+msgstr[1] ""
+
+#: build/dashboard.js:3
+msgid "No documents yet. Add one and its shortcode shows up here, ready to copy."
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Set up the document"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Go to Document Viewer → Add a document. It opens with the Document Viewer block: pick the file, choose the settings, then publish."
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Copy its shortcode"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Every document has a shortcode in the All Documents list and in the block's Shortcode panel. Your documents are listed here too."
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Block editor"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Add the Document Viewer block"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Create a page"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "In any page or post, click <b>+</b> and search for <b>Document Viewer</b>, or type <code>/document</code> in an empty line."
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Pick the file"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Upload a PDF, Word (DOCX), Excel (XLSX, XLS) or CSV file, pick one from the Media Library, or paste a link. The block shows the real file right away."
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Choose the settings, and publish"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "The toolbar, the height, the lightbox, the cells to show and the colors are in the block's sidebar. Visitors see the file as soon as the page is published."
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Classic editor"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Paste it in the Classic Editor"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Paste the shortcode where the file goes, in the Visual or the Text tab, then update the page. It works in text and Shortcode widgets too."
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Copy the shortcode"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Elementor & builders"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Add a Shortcode widget"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "In <b>Elementor</b>, drag the <b>Shortcode</b> widget onto the page and paste the shortcode; the file shows in Elementor's preview too. Other builders work the same way:"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Code module"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "HTML module"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Text Block"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Shortcode element"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Theme / PHP"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Block theme: add the block to a template"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Open the Site Editor"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Your theme is a block theme. In Appearance → Editor, open a template or a template part, such as the footer, and add the Document Viewer block like on any page."
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Any theme: print the shortcode"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Add the document under Document Viewer → All Documents, then show it from a template file, such as <code>single.php</code>, with:"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Copy the PHP code"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Getting started"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Pick where you build your pages; the steps follow."
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Where you build your pages"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "On this site"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Fastest start"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Open a new page, type <code>/document</code> and press Enter: the block is ready for your file."
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Block"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Add the file right inside a page or post, in the block editor."
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Open a new page"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Set up the document once, then paste its shortcode in the Classic Editor, Elementor or any page builder."
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "How do you want to add your file?"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Fits this site"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "See your documents"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "PDF, Word and Excel files, right on your pages"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Visitors read the file on the page, search it and download it. It opens in their browser, straight from your site: no Google or Microsoft viewer, no account, nothing sent anywhere."
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Videos"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Loading…"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "No documents yet"
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "Add the Document Viewer block to any page or post, or make a document under Document Viewer → All Documents and use its shortcode. Every one shows up here once it is saved."
+msgstr ""
+
+#: build/dashboard.js:3
+msgid "(no file yet)"
+msgstr ""
+
+#: build/dashboard.js:3
+#: build/index.js:2
+msgid "Lightbox"
+msgstr ""
+
+#: build/dashboard.js:3
+#: build/index.js:7
+#: build/view.js:6
+msgid "View"
+msgstr ""
+
+#: build/dashboard.js:4
+msgid "Only documents made under Document Viewer → All Documents have a shortcode."
+msgstr ""
+
+#: build/dashboard.js:4
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#. translators: %d: the number of pages and posts shown
+#: build/dashboard.js:5
+#, js-format
+msgid "The newest %d pages and posts with the block."
+msgstr ""
+
+#. translators: %d: the number of pages, posts, patterns and documents
+#: build/dashboard.js:6
+#, js-format
+msgid "%d place with the block on this site: pages, posts, patterns, templates and All Documents."
+msgid_plural "%d places with the block on this site: pages, posts, patterns, templates and All Documents."
+msgstr[0] ""
+msgstr[1] ""
+
+#: build/dashboard.js:6
+msgid "Search files and pages"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Files"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Where"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Nothing matches your search."
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Plugin"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Theme"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Browser"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Which files can it show?"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "PDF, Word (DOCX), Excel (XLSX and XLS) and CSV. The older Word format (DOC) is not supported; save the file as DOCX."
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Does it work with the Classic Editor or page builders?"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Yes. Go to Document Viewer → Add a document, pick the file, choose the settings and publish. The All Documents list shows its shortcode, such as [softicon_document id=\"123\"]; paste it in the Classic Editor, a widget, Elementor's Shortcode widget, a Code module in Divi, an HTML module in Beaver Builder, a Text Block in WPBakery or the Shortcode element in Bricks and Oxygen."
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Does it send my files anywhere?"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "No. The plugin does not use Google Docs Viewer, Microsoft Office Online or any other outside service. Files from your Media Library are read from your own site by the visitor's browser."
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Can I show only part of a spreadsheet?"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Yes. Under Spreadsheet in the block's settings, write the cells in Cells to show, the way Excel does: A1:F20, whole columns (A:F) or whole rows (5:40). Leave it empty for the whole sheet."
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Can visitors search inside a document?"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Yes, in PDF and Word files. The magnifier in the toolbar opens a search box; Enter goes to the next result and Shift+Enter back. Ctrl+F (Cmd+F on a Mac) after clicking in the viewer opens it too. A scanned PDF (pictures of pages, no text) has nothing to find."
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Can the document open in a popup?"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Yes. Turn on Open in a lightbox under Lightbox in the block's settings. The page then shows only the file card with a button, and the document opens over the page when a visitor clicks it."
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "A file from another website does not open"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "The visitor's browser reads the file itself, so the other website has to allow that (a CORS header). Most do not. Upload the file to your Media Library instead; the block then shows a message and the Download button for such a file."
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Does a Word file look exactly like in Word?"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Text, headings, lists, tables, images, headers and footers come through well. Complex layouts (text boxes, SmartArt, charts, columns) may look different. When the look matters, a PDF is the safer choice; the Download button gives visitors the original file either way."
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "How big can a spreadsheet be?"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Files up to 50 MB open. A sheet shows up to 20,000 rows and 1,000 columns, and more rows appear as visitors scroll; the Download button gives them the whole file."
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "A file with a password does not open"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "The block cannot show a PDF, Word or Excel file that needs a password. Save it without one, or leave the Download button on so visitors can open it on their device."
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Does the plugin collect any data?"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "No. It stores no data about visitors, sets no cookies and contacts no outside service. The videos on this dashboard load from YouTube only when you click one."
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Support forum"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Ask on WordPress.org; the people who build the plugin answer, and you can search past answers."
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Visit the forum"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Questions and answers"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Every question from the plugin page, in one list."
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Read the FAQ"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "The plugin in half a minute, and a short video for each feature."
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Watch here"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Email"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Write to us"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Support"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "How can we help?"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "A real person reads every message: the developers who build SoftIcon Document Viewer."
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Search the answers"
+msgstr ""
+
+#: build/dashboard.js:6
+msgid "Quick answers"
+msgstr ""
+
+#. translators: %d: the number of answers that match the search
+#: build/dashboard.js:7
+#, js-format
+msgid "%d found"
+msgstr ""
+
+#: build/dashboard.js:7
+msgid "The questions people ask most"
+msgstr ""
+
+#: build/dashboard.js:7
+msgid "No quick answer for that."
+msgstr ""
+
+#: build/dashboard.js:7
+msgid "Ask in the forum"
+msgstr ""
+
+#: build/dashboard.js:7
+msgid "All questions and answers"
+msgstr ""
+
+#: build/dashboard.js:7
+msgid "Your site details"
+msgstr ""
+
+#: build/dashboard.js:7
+msgid "Paste these into your forum topic or email, with the address of the page and what you see. They are only copied, never sent."
+msgstr ""
+
+#: build/dashboard.js:7
+msgid "A review helps other people find it and keeps it free."
+msgstr ""
+
+#: build/dashboard.js:7
+#: build/index.js:2
+msgid "More plugins"
+msgstr ""
+
+#: build/dashboard.js:7
+msgid "Source on GitHub"
+msgstr ""
+
 #: build/index.js:2
 #, js-format
 msgid "%s color"
@@ -90,15 +731,7 @@ msgid "Rate Document Viewer"
 msgstr ""
 
 #: build/index.js:2
-msgid "More plugins"
-msgstr ""
-
-#: build/index.js:2
 msgid "Watch how it works"
-msgstr ""
-
-#: build/index.js:2
-msgid "Help"
 msgstr ""
 
 #: build/index.js:2
@@ -119,10 +752,6 @@ msgstr ""
 
 #: build/index.js:2
 msgid "Lets visitors save the file."
-msgstr ""
-
-#: build/index.js:2
-msgid "Lightbox"
 msgstr ""
 
 #: build/index.js:2
@@ -258,6 +887,22 @@ msgid "Table header text"
 msgstr ""
 
 #: build/index.js:2
+msgid "Publish the document first, the shortcode shows only published documents."
+msgstr ""
+
+#: build/index.js:2
+msgid "Paste it in the Classic Editor, a widget, or a page builder: the Shortcode widget in Elementor, a Code module in Divi, an HTML module in Beaver Builder, a Text Block in WPBakery, or the Shortcode element in Bricks and Oxygen."
+msgstr ""
+
+#: build/index.js:2
+msgid "Your document is ready. Give it a title and click Publish, then copy its shortcode from the Shortcode panel in the sidebar."
+msgstr ""
+
+#: build/index.js:2
+msgid "Your document is ready. Choose the toolbar, size and colors in the sidebar, then click Publish."
+msgstr ""
+
+#: build/index.js:2
 msgid "Replace"
 msgstr ""
 
@@ -267,10 +912,6 @@ msgstr ""
 
 #: build/index.js:2
 msgid "This file cannot be shown, so the page leaves the block out. Pick a PDF, DOCX, XLSX, XLS or CSV file."
-msgstr ""
-
-#: build/index.js:2
-msgid "Document Viewer"
 msgstr ""
 
 #: build/index.js:2
@@ -435,16 +1076,6 @@ msgstr ""
 #: build/index.js:7
 #: build/view.js:6
 msgid "These cells are empty."
-msgstr ""
-
-#: build/index.js:7
-#: build/view.js:6
-msgid "View"
-msgstr ""
-
-#: build/index.js:7
-#: build/view.js:6
-msgid "Close"
 msgstr ""
 
 #: build/index.js:7

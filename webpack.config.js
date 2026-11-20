@@ -31,6 +31,11 @@ const rules = defaultConfig.module.rules.map(rule => (Array.isArray(rule.use) ? 
 
 module.exports = {
 	...defaultConfig,
+	// the dashboard script, includes/class-dashboard.php loads it
+	entry: () => ( {
+		...defaultConfig.entry(),
+		dashboard: './src/dashboard/index.js'
+	} ),
 	module: { ...defaultConfig.module, rules },
 	// the lazy viewer chunks get a version, so a browser never mixes a cached old chunk with a new view.js
 	output: { ...defaultConfig.output, chunkFilename: '[name].js?ver=[contenthash:8]' },

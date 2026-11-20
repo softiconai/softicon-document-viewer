@@ -90,5 +90,23 @@ if ( 'loading' === document.readyState ) {
 	boot();
 }
 
-// for documents added to the page later, e.g. in a popup
-document.addEventListener( 'aldv:boot', boot );
+// for documents added to the page later, e.g. in a popup or by a page builder; a burst of them boots once
+let queued = false;
+const bootSoon = () => {
+	if ( ! queued ) {
+		queued = true;
+		requestAnimationFrame( () => {
+			queued = false;
+			boot();
+		} );
+	}
+};
+document.addEventListener( 'aldv:boot', bootSoon );
+
+// Elementor's editor preview draws a widget again after each change, such as a Shortcode widget with a document
+const elementor = () => window.elementorFrontend?.hooks?.addAction( 'frontend/element_ready/global', bootSoon );
+if ( window.elementorFrontend?.hooks ) {
+	elementor();
+} else {
+	window.jQuery?.( window ).on( 'elementor/frontend/init', elementor );
+}

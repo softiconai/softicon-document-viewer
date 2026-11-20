@@ -4,7 +4,7 @@ Tags: document viewer, docx viewer, excel viewer, embed document, block
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.1
+Stable tag: 1.4.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -25,13 +25,15 @@ https://www.youtube.com/watch?v=d8Giuz5k7ig
 * **Lightbox** – the page shows only the file card with a View button (write your own text), and the document opens over the page when a visitor clicks it. Good for a page with many files. Esc, the close button or a click outside closes it ([video](https://www.youtube.com/watch?v=HveN2ydERG0)).
 * **Your size, your colors** – the whole document grows with the page, or it scrolls inside a box of the height you set. Wide and full width are supported. Pick the background, border, toolbar and table header colors.
 * **Live preview** – the block editor shows the real file, not a placeholder.
+* **Shortcode for the Classic Editor and page builders** – set up a document once under Document Viewer → All Documents, then paste its shortcode, like `[softicon_document id="123"]`, in the Classic Editor, a widget, Elementor, Divi, Beaver Builder, WPBakery, Bricks or Oxygen.
+* **Dashboard** – Document Viewer in the admin menu: how to get started with the block editor, the Classic Editor or a page builder, every page that shows a document, the videos, and help.
 * **No outside viewer** – nothing is sent to Google or Microsoft, so it works on intranets, local sites and members-only sites.
 * **No cookies, no tracking** – the plugin sends nothing anywhere.
 * **Loads only where it is used** – the viewer's code loads only on pages with the block, and only the part for that kind of file, when the block comes near the screen (in a lightbox, when the visitor points at the button).
 
 = Privacy =
 
-The plugin stores no data, sets no cookies and contacts no outside service. Your files are read by the visitor's browser straight from your site. If you link a file on another website, the visitor's browser loads it from there.
+The plugin stores nothing about visitors, sets no cookies and contacts no outside service. Your files are read by the visitor's browser straight from your site. If you link a file on another website, the visitor's browser loads it from there. In the admin, the dashboard's videos load from YouTube (youtube-nocookie.com) only when you click one, and one option remembers your answer to the review request; it is removed when you delete the plugin.
 
 = Third-party libraries =
 
@@ -50,8 +52,13 @@ The unminified source of this plugin is in the src folder, with package.json and
 1. Install the plugin from Plugins → Add New, or upload the zip.
 2. Activate it.
 3. In the block editor, add the **Document Viewer** block and pick a file.
+4. Classic Editor or a page builder: go to **Document Viewer → Add a document**, pick the file, publish, and paste its shortcode where the file goes.
 
 == Frequently Asked Questions ==
+
+= Does it work with the Classic Editor or page builders? =
+
+Yes. Go to **Document Viewer → Add a document**, pick the file, choose the settings and publish. The All Documents list and the block's Shortcode panel show its shortcode, such as `[softicon_document id="123"]`. Paste it in the Classic Editor, a widget, Elementor's Shortcode widget, a Code module in Divi, an HTML module in Beaver Builder, a Text Block in WPBakery or the Shortcode element in Bricks and Oxygen. Only published documents show. In a theme file use `<?php echo do_shortcode( '[softicon_document id="123"]' ); ?>`.
 
 = Can I show only part of a spreadsheet? =
 
@@ -104,7 +111,7 @@ Files up to 50 MB open. A sheet shows up to 20,000 rows and 1,000 columns, and m
 
 = Does it work with my theme and page builder? =
 
-It is a block, so it works wherever the block editor does: block themes, classic themes and the Site Editor. There is no shortcode or page builder widget.
+It is a block, so it works wherever the block editor does: block themes, classic themes and the Site Editor. For the Classic Editor and page builders, use a document's shortcode (see above).
 
 = A file with a password does not open =
 
@@ -121,6 +128,10 @@ The block cannot show a PDF, Word or Excel file that needs a password. Save it w
 7. A fixed height: the document scrolls inside the block.
 
 == Changelog ==
+
+= 1.4.0 =
+* New: Shortcode. Set up a document under Document Viewer → All Documents and paste `[softicon_document id="123"]` in the Classic Editor, a widget or any page builder. Elementor's preview shows it too.
+* New: The Document Viewer dashboard in the admin menu: getting started for the block editor, the Classic Editor and page builders, every page that shows a document, the videos, and help.
 
 = 1.3.1 =
 * Short videos: the Spreadsheet, Lightbox and Toolbar panels in the block's settings link to a video of their feature (Cells to show, Lightbox, Search), and so does the readme.
