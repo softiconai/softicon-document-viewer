@@ -145,7 +145,8 @@ const remembered = () => {
 const GettingStarted = ( { config, play } ) => {
 	const start = { ...config.start, ...config.urls };
 	const list = tabs( start );
-	const video = config.videos[ 0 ];
+	// the Classic Editor, page builder and theme steps show the shortcode video, the block editor the short tour
+	const shortcodeVideo = config.videos.find( ( item ) => item.url === config.shortcodeVideo );
 	// the tab picked last time, else the editor this site uses (Classic Editor, then Elementor), else the block editor
 	const [ tab, setTab ] = useState( () => {
 		const saved = remembered();
@@ -166,6 +167,7 @@ const GettingStarted = ( { config, play } ) => {
 		}
 	};
 	const current = list.find( ( item ) => item.key === tab ) || list[ 0 ];
+	const video = ( current.docs && shortcodeVideo ) || config.videos[ 0 ];
 
 	// arrow keys move between the tabs, as in any tab list
 	const onKey = ( event ) => {

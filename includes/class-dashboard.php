@@ -14,6 +14,8 @@ class Dashboard {
 	const REVIEW = 'aldv_review';
 	// the Documents tab lists at most this many posts, newest first
 	const LIMIT = 200;
+	// the shortcode video: Getting started shows it beside the Classic Editor, page builder and theme steps
+	const SHORTCODE_VIDEO = 'https://www.youtube.com/watch?v=xHkl9MWn5ZU';
 
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'menu' ), 9 ); // before WordPress adds All Documents under it
@@ -23,10 +25,11 @@ class Dashboard {
 		add_filter( 'plugin_row_meta', array( $this, 'row_meta' ), 10, 2 );
 	}
 
-	// the videos, newest feature last; a click plays one in a popup on the dashboard
+	// the videos: the short tour, the shortcode, then one per setting; a click plays one in a popup on the dashboard
 	public static function videos() {
 		return array(
 			'https://www.youtube.com/watch?v=d8Giuz5k7ig' => __( 'Document Viewer in 30 seconds', 'softicon-document-viewer' ),
+			self::SHORTCODE_VIDEO                         => __( 'Use it in Elementor and the Classic Editor', 'softicon-document-viewer' ),
 			'https://www.youtube.com/watch?v=kznWWJ8LBRU' => __( 'Every setting, explained', 'softicon-document-viewer' ),
 			'https://www.youtube.com/watch?v=mIB4ggRL6XE' => __( 'Show only part of an Excel sheet', 'softicon-document-viewer' ),
 			'https://www.youtube.com/watch?v=HveN2ydERG0' => __( 'Open files in a lightbox', 'softicon-document-viewer' ),
@@ -121,20 +124,21 @@ class Dashboard {
 			);
 		}
 		$config = array(
-			'tabs'    => $tabs,
-			'version' => ALDV_PLUGIN_VERSION,
-			'icon'    => ALDV_PLUGIN_URL . 'assets/images/icon-128x128.png',
-			'videos'  => $videos,
-			'review'  => self::review(),
-			'urls'    => array(
+			'tabs'           => $tabs,
+			'version'        => ALDV_PLUGIN_VERSION,
+			'icon'           => ALDV_PLUGIN_URL . 'assets/images/icon-128x128.png',
+			'videos'         => $videos,
+			'shortcodeVideo' => self::SHORTCODE_VIDEO,
+			'review'         => self::review(),
+			'urls'           => array(
 				'newPage'     => admin_url( 'post-new.php?post_type=page' ),
 				'newDocument' => admin_url( 'post-new.php?post_type=' . Shortcode::TYPE ),
 				'allDocs'     => admin_url( 'edit.php?post_type=' . Shortcode::TYPE ),
 				'media'       => admin_url( 'upload.php' ),
 			),
-			'start'   => self::start(),
+			'start'          => self::start(),
 			// the Help tab's "Your site details", copied into a support topic (only copied, never sent)
-			'site'    => array(
+			'site'           => array(
 				'wp'    => get_bloginfo( 'version' ),
 				'php'   => PHP_VERSION,
 				'theme' => wp_get_theme()->get( 'Name' ),

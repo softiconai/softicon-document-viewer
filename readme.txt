@@ -4,7 +4,7 @@ Tags: document viewer, docx viewer, excel viewer, embed document, block
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -25,7 +25,7 @@ https://www.youtube.com/watch?v=d8Giuz5k7ig
 * **Lightbox** – the page shows only the file card with a View button (write your own text), and the document opens over the page when a visitor clicks it. Good for a page with many files. Esc, the close button or a click outside closes it ([video](https://www.youtube.com/watch?v=HveN2ydERG0)).
 * **Your size, your colors** – the whole document grows with the page, or it scrolls inside a box of the height you set. Wide and full width are supported. Pick the background, border, toolbar and table header colors.
 * **Live preview** – the block editor shows the real file, not a placeholder.
-* **Shortcode for the Classic Editor and page builders** – set up a document once under Document Viewer → All Documents, then paste its shortcode, like `[softicon_document id="123"]`, in the Classic Editor, a widget, Elementor, Divi, Beaver Builder, WPBakery, Bricks or Oxygen.
+* **Shortcode for the Classic Editor and page builders** – set up a document once under Document Viewer → All Documents, then paste its shortcode, like `[softicon_document id="123"]`, in the Classic Editor, a widget, Elementor, Divi, Beaver Builder, WPBakery, Bricks or Oxygen ([video](https://www.youtube.com/watch?v=xHkl9MWn5ZU)).
 * **Dashboard** – Document Viewer in the admin menu: how to get started with the block editor, the Classic Editor or a page builder, every page that shows a document, the videos, and help.
 * **No outside viewer** – nothing is sent to Google or Microsoft, so it works on intranets, local sites and members-only sites.
 * **No cookies, no tracking** – the plugin sends nothing anywhere.
@@ -60,6 +60,8 @@ The unminified source of this plugin is in the src folder, with package.json and
 
 Yes. Go to **Document Viewer → Add a document**, pick the file, choose the settings and publish. The All Documents list and the block's Shortcode panel show its shortcode, such as `[softicon_document id="123"]`. Paste it in the Classic Editor, a widget, Elementor's Shortcode widget, a Code module in Divi, an HTML module in Beaver Builder, a Text Block in WPBakery or the Shortcode element in Bricks and Oxygen. Only published documents show. In a theme file use `<?php echo do_shortcode( '[softicon_document id="123"]' ); ?>`.
 
+Watch it: [Show documents in Elementor and the Classic Editor](https://www.youtube.com/watch?v=xHkl9MWn5ZU) (0:53).
+
 = Can I show only part of a spreadsheet? =
 
 Yes. Under Spreadsheet in the block's settings, write the cells in **Cells to show**, the way Excel does: A1:F20, whole columns (A:F) or whole rows (5:40). Only those cells of the sheet shown first appear, with their own row numbers, and without the other sheets' tabs. Leave it empty for the whole sheet.
@@ -83,11 +85,12 @@ Watch it: [Open files in a lightbox](https://www.youtube.com/watch?v=HveN2ydERG0
 Yes, short ones:
 
 * [Every setting, explained](https://www.youtube.com/watch?v=kznWWJ8LBRU) (1:32), also linked from the Help panel in the block's settings.
+* [Show documents in Elementor and the Classic Editor](https://www.youtube.com/watch?v=xHkl9MWn5ZU) (0:53)
 * [Show only part of an Excel sheet](https://www.youtube.com/watch?v=mIB4ggRL6XE) (0:47)
 * [Open files in a lightbox](https://www.youtube.com/watch?v=HveN2ydERG0) (0:46)
 * [Search inside PDF and Word files](https://www.youtube.com/watch?v=8ZLpnEgAgtE) (0:42)
 
-The Spreadsheet, Lightbox and Toolbar panels in the block's settings link to their own video.
+The Spreadsheet, Lightbox, Toolbar and Shortcode panels in the block's settings link to their own video, and the Document Viewer dashboard plays them all.
 
 = Which files can it show? =
 
@@ -128,6 +131,9 @@ The block cannot show a PDF, Word or Excel file that needs a password. Save it w
 7. A fixed height: the document scrolls inside the block.
 
 == Changelog ==
+
+= 1.4.1 =
+* A video for the shortcode: Elementor and the Classic Editor. The Shortcode panel, the dashboard's Getting started (Classic Editor, page builders, theme) and the readme link to it.
 
 = 1.4.0 =
 * New: Shortcode. Set up a document under Document Viewer → All Documents and paste `[softicon_document id="123"]` in the Classic Editor, a widget or any page builder. Elementor's preview shows it too.

@@ -24,6 +24,7 @@ export const videos = {
 	cells: { href: 'https://www.youtube.com/watch?v=mIB4ggRL6XE', time: '0:47' },
 	lightbox: { href: 'https://www.youtube.com/watch?v=HveN2ydERG0', time: '0:46' },
 	search: { href: 'https://www.youtube.com/watch?v=8ZLpnEgAgtE', time: '0:42' },
+	shortcode: { href: 'https://www.youtube.com/watch?v=xHkl9MWn5ZU', time: '0:53' },
 };
 
 // the cards in the Help panel

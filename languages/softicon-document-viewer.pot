@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: SoftIcon Document Viewer – Embed PDF, Word & Excel Files 1.4.0\n"
+"Project-Id-Version: SoftIcon Document Viewer – Embed PDF, Word & Excel Files 1.4.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/softicon-document-viewer\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-20T03:00:10+00:00\n"
+"POT-Creation-Date: 2026-11-20T06:44:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: softicon-document-viewer\n"
@@ -60,65 +60,69 @@ msgstr ""
 msgid "CSV file"
 msgstr ""
 
-#: includes/class-dashboard.php:29
+#: includes/class-dashboard.php:31
 msgid "Document Viewer in 30 seconds"
 msgstr ""
 
-#: includes/class-dashboard.php:30
-msgid "Every setting, explained"
-msgstr ""
-
-#: includes/class-dashboard.php:31
-msgid "Show only part of an Excel sheet"
-msgstr ""
-
 #: includes/class-dashboard.php:32
-msgid "Open files in a lightbox"
+msgid "Use it in Elementor and the Classic Editor"
 msgstr ""
 
 #: includes/class-dashboard.php:33
+msgid "Every setting, explained"
+msgstr ""
+
+#: includes/class-dashboard.php:34
+msgid "Show only part of an Excel sheet"
+msgstr ""
+
+#: includes/class-dashboard.php:35
+msgid "Open files in a lightbox"
+msgstr ""
+
+#: includes/class-dashboard.php:36
 msgid "Search inside PDF and Word files"
 msgstr ""
 
-#: includes/class-dashboard.php:44
-#: includes/class-dashboard.php:53
-#: includes/class-dashboard.php:342
+#: includes/class-dashboard.php:47
+#: includes/class-dashboard.php:56
+#: includes/class-dashboard.php:346
 msgid "SoftIcon Document Viewer"
 msgstr ""
 
-#: includes/class-dashboard.php:45
+#: includes/class-dashboard.php:48
 #: build/dashboard.js:1
 #: build/index.js:2
 msgid "Document Viewer"
 msgstr ""
 
-#: includes/class-dashboard.php:53
-#: includes/class-dashboard.php:65
+#: includes/class-dashboard.php:56
+#: includes/class-dashboard.php:68
 msgid "Dashboard"
 msgstr ""
 
-#: includes/class-dashboard.php:71
-#: includes/class-dashboard.php:103
+#: includes/class-dashboard.php:74
+#: includes/class-dashboard.php:106
 #: build/index.js:2
 msgid "Help"
 msgstr ""
 
-#: includes/class-dashboard.php:101
+#: includes/class-dashboard.php:104
 msgid "Welcome"
 msgstr ""
 
-#: includes/class-dashboard.php:102
+#: includes/class-dashboard.php:105
 #: includes/class-shortcode.php:45
 #: includes/class-shortcode.php:47
 msgid "Documents"
 msgstr ""
 
-#: includes/class-dashboard.php:166
-#: includes/class-dashboard.php:258
+#: includes/class-dashboard.php:170
+#: includes/class-dashboard.php:262
 msgid "(no title)"
 msgstr ""
 
-#: includes/class-dashboard.php:346
+#: includes/class-dashboard.php:350
 msgid "The Document Viewer dashboard needs JavaScript."
 msgstr ""
 
