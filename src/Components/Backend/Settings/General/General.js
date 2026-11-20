@@ -1,10 +1,15 @@
 import { __ } from '@wordpress/i18n';
-import { RangeControl, SelectControl, TextControl } from '@wordpress/components';
+import { ExternalLink, RangeControl, SelectControl, TextControl } from '@wordpress/components';
 import { HelpCards, Panel, ToggleRow } from '../../../../vendor/softicon-tools/components/Panels';
-import { helpCards } from '../../../../utils/options';
+import { helpCards, videos } from '../../../../utils/options';
 import { heightOf } from '../../../../utils/functions';
 import { parseRange } from '../../../../viewer/range';
 import { lightboxText } from '../../../../viewer/messages';
+
+// a link to the feature's short video on YouTube, at the bottom of its panel
+const Video = ( { video } ) => <p className="aldvHelp aldvVideo">
+	<ExternalLink href={ video.href }>{ __( 'Watch how it works', 'softicon-document-viewer' ) }</ExternalLink> ({ video.time })
+</p>;
 
 const General = ( { attributes, setAttributes, file, sheets = [] } ) => {
 	const { showDownload, showFullscreen, showZoom, showSearch, maxHeight, headerRow, firstSheet, cellRange, lightbox, buttonText } = attributes;
@@ -45,6 +50,7 @@ const General = ( { attributes, setAttributes, file, sheets = [] } ) => {
 			<p className="aldvHelp">{ lightbox
 				? __( 'The preview below is what opens in the lightbox.', 'softicon-document-viewer' )
 				: __( 'Good for a page with many files, or a long document a visitor may not need.', 'softicon-document-viewer' ) }</p>
+			<Video video={ videos.lightbox } />
 		</Panel>
 
 		{ /* a lightbox has no Fullscreen button: it already fills the screen */ }
@@ -52,6 +58,7 @@ const General = ( { attributes, setAttributes, file, sheets = [] } ) => {
 			{ ! lightbox && <ToggleRow label={ __( 'Fullscreen button', 'softicon-document-viewer' ) } tip={ __( 'Opens the document over the whole screen. Not shown in the editor.', 'softicon-document-viewer' ) } checked={ showFullscreen } onChange={ set( 'showFullscreen' ) } /> }
 			{ zoomable && <ToggleRow label={ __( 'Zoom buttons', 'softicon-document-viewer' ) } tip={ __( 'Let visitors make the pages bigger or smaller.', 'softicon-document-viewer' ) } checked={ showZoom } onChange={ set( 'showZoom' ) } /> }
 			{ zoomable && <ToggleRow label={ __( 'Search button', 'softicon-document-viewer' ) } tip={ __( 'Lets visitors find words in the document and jump from one result to the next. Ctrl+F (Cmd+F on a Mac) inside the viewer opens it too.', 'softicon-document-viewer' ) } checked={ showSearch } onChange={ set( 'showSearch' ) } /> }
+			{ zoomable && <Video video={ videos.search } /> }
 		</Panel> }
 
 		{ /* a lightbox is as big as the screen */ }
@@ -105,6 +112,7 @@ const General = ( { attributes, setAttributes, file, sheets = [] } ) => {
 				__nextHasNoMarginBottom
 				__next40pxDefaultSize
 			/>
+			<Video video={ videos.cells } />
 		</Panel> }
 	</>;
 };

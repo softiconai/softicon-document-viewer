@@ -19,6 +19,13 @@ export const tabs = [
 	{ name: 'style', title: __( 'Style', 'softicon-document-viewer' ), className: 'style' },
 ];
 
+// a short video for each feature, linked from its panel and from the readme
+export const videos = {
+	cells: { href: 'https://www.youtube.com/watch?v=mIB4ggRL6XE', time: '0:47' },
+	lightbox: { href: 'https://www.youtube.com/watch?v=HveN2ydERG0', time: '0:46' },
+	search: { href: 'https://www.youtube.com/watch?v=8ZLpnEgAgtE', time: '0:42' },
+};
+
 // the cards in the Help panel
 export const helpCards = [
 	{ href: 'https://www.youtube.com/watch?v=kznWWJ8LBRU', label: __( 'Video tutorial', 'softicon-document-viewer' ), icon: shared.video },

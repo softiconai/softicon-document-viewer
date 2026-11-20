@@ -4,7 +4,7 @@ Tags: document viewer, docx viewer, excel viewer, embed document, block
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -18,11 +18,11 @@ https://www.youtube.com/watch?v=d8Giuz5k7ig
 
 * **PDF in the page** – the pages show one below the other, sharp on phones and retina screens. Only the pages near the screen are drawn, and only the parts of the file they need are downloaded, so long PDFs open fast.
 * **Word as real text** – a DOCX file becomes real HTML with its headings, lists, tables, images, headers and footers, so visitors can search it and screen readers can read it. On a computer it looks like Word's pages; on a phone the text flows to the screen width so it stays readable.
-* **Excel that looks like Excel** – XLSX and XLS files show with their sheet tabs, number, currency, percent and date formats, merged cells and links. Only the used cells are shown, and the header row and row numbers stay in view while visitors scroll. Choose which sheet opens first, or show only part of it, like A1:F20.
+* **Excel that looks like Excel** – XLSX and XLS files show with their sheet tabs, number, currency, percent and date formats, merged cells and links. Only the used cells are shown, and the header row and row numbers stay in view while visitors scroll. Choose which sheet opens first, or show only part of it, like A1:F20 ([video](https://www.youtube.com/watch?v=mIB4ggRL6XE)).
 * **CSV as a table** – the first row is the header (or turn that off), and values stay exactly as written, so codes like 00123 keep their zeros.
-* **Search inside the file** – visitors find words in a PDF or Word file: every result is marked, and Enter jumps to the next one. Ctrl+F (Cmd+F on a Mac) in the viewer opens it too, even for a PDF, which the browser's own search cannot read.
+* **Search inside the file** – visitors find words in a PDF or Word file: every result is marked, and Enter jumps to the next one. Ctrl+F (Cmd+F on a Mac) in the viewer opens it too, even for a PDF, which the browser's own search cannot read ([video](https://www.youtube.com/watch?v=8ZLpnEgAgtE)).
 * **Toolbar** – zoom and search for PDF and Word, the page number for PDF, fullscreen for every file, and the Download button. Every button works with the keyboard and screen readers; turn the ones you do not need off.
-* **Lightbox** – the page shows only the file card with a View button (write your own text), and the document opens over the page when a visitor clicks it. Good for a page with many files. Esc, the close button or a click outside closes it.
+* **Lightbox** – the page shows only the file card with a View button (write your own text), and the document opens over the page when a visitor clicks it. Good for a page with many files. Esc, the close button or a click outside closes it ([video](https://www.youtube.com/watch?v=HveN2ydERG0)).
 * **Your size, your colors** – the whole document grows with the page, or it scrolls inside a box of the height you set. Wide and full width are supported. Pick the background, border, toolbar and table header colors.
 * **Live preview** – the block editor shows the real file, not a placeholder.
 * **No outside viewer** – nothing is sent to Google or Microsoft, so it works on intranets, local sites and members-only sites.
@@ -57,17 +57,30 @@ The unminified source of this plugin is in the src folder, with package.json and
 
 Yes. Under Spreadsheet in the block's settings, write the cells in **Cells to show**, the way Excel does: A1:F20, whole columns (A:F) or whole rows (5:40). Only those cells of the sheet shown first appear, with their own row numbers, and without the other sheets' tabs. Leave it empty for the whole sheet.
 
+Watch it: [Show only part of an Excel sheet](https://www.youtube.com/watch?v=mIB4ggRL6XE) (0:47).
+
 = Can visitors search inside a document? =
 
 Yes, in PDF and Word files. The magnifier in the toolbar opens a search box; every result is marked, Enter goes to the next one and Shift+Enter back. Ctrl+F (Cmd+F on a Mac) after clicking in the viewer opens it too. A scanned PDF (pictures of pages, no text) has nothing to find. Turn the button off under Toolbar → Search button.
+
+Watch it: [Search inside PDF and Word files](https://www.youtube.com/watch?v=8ZLpnEgAgtE) (0:42).
 
 = Can the document open in a popup? =
 
 Yes. Turn on **Open in a lightbox** under Lightbox in the block's settings. The page then shows only the file card with a button, and the document opens over the page when a visitor clicks it. Change the button's text under **Button text**; empty, it says View.
 
+Watch it: [Open files in a lightbox](https://www.youtube.com/watch?v=HveN2ydERG0) (0:46).
+
 = Is there a video tutorial? =
 
-Yes: [Every setting, explained](https://www.youtube.com/watch?v=kznWWJ8LBRU) (1:32). The Help panel in the block's settings links to it too.
+Yes, short ones:
+
+* [Every setting, explained](https://www.youtube.com/watch?v=kznWWJ8LBRU) (1:32), also linked from the Help panel in the block's settings.
+* [Show only part of an Excel sheet](https://www.youtube.com/watch?v=mIB4ggRL6XE) (0:47)
+* [Open files in a lightbox](https://www.youtube.com/watch?v=HveN2ydERG0) (0:46)
+* [Search inside PDF and Word files](https://www.youtube.com/watch?v=8ZLpnEgAgtE) (0:42)
+
+The Spreadsheet, Lightbox and Toolbar panels in the block's settings link to their own video.
 
 = Which files can it show? =
 
@@ -108,6 +121,9 @@ The block cannot show a PDF, Word or Excel file that needs a password. Save it w
 7. A fixed height: the document scrolls inside the block.
 
 == Changelog ==
+
+= 1.3.1 =
+* Short videos: the Spreadsheet, Lightbox and Toolbar panels in the block's settings link to a video of their feature (Cells to show, Lightbox, Search), and so does the readme.
 
 = 1.3.0 =
 * New: Search inside PDF and Word files. Every result is marked, Enter jumps to the next one, and Ctrl+F (Cmd+F) in the viewer opens it. Turn it off under Toolbar → Search button.
